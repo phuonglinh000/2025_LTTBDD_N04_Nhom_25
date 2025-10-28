@@ -95,7 +95,7 @@ class _man_hinh_chinhState extends State<man_hinh_chinh> {
     double progress = (goal > 0) ? (totalCalories / goal) : 0.0;
     if (progress.isInfinite || progress.isNaN) progress = 0.0;
     if (progress < 0) progress = 0.0;
-    if (progress > 1) progress = 1.0;
+    double displayProgress = progress.clamp(0.0, 1.0);
 
     return Scaffold(
       appBar: AppBar(
@@ -247,12 +247,12 @@ class _man_hinh_chinhState extends State<man_hinh_chinh> {
                         height: 120,
                         width: 120,
                         child: CircularProgressIndicator(
-                          value: progress,
+                          value: displayProgress,
                           strokeWidth: 10,
                           backgroundColor: Colors.grey[300],
                           
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            progress < 0.9 ? Colors.amber : (progress <= 1.1 ? Colors.green : Colors.red)
+                            progress < 1.0 ? Colors.amber : (progress < 0.9 ? Colors.green : Colors.red)
                           ),
                         ),
                       ),
