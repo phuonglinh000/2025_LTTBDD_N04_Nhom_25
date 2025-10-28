@@ -18,7 +18,7 @@ class _man_hinh_chinhState extends State<man_hinh_chinh> {
 
   
   final List<Map<String, dynamic>> _meals = [
-    {'name': 'Chuối', 'calories': 85},
+    {'name': 'Chuối', 'calories': 2000},
     {'name': 'Cơm', 'calories': 130},
     {'name': 'Trứng luộc', 'calories': 75},
   ];
@@ -250,7 +250,10 @@ class _man_hinh_chinhState extends State<man_hinh_chinh> {
                           value: progress,
                           strokeWidth: 10,
                           backgroundColor: Colors.grey[300],
-                          color: progress < 0.7 ? Colors.green : Colors.orange,
+                          
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            progress < 0.9 ? Colors.amber : (progress <= 1.1 ? Colors.green : Colors.red)
+                          ),
                         ),
                       ),
                       
