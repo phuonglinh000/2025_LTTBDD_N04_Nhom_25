@@ -5,7 +5,8 @@ void main() {
   runApp(const CalorieApp());
 }
 
-class CalorieApp extends StatelessWidget {
+class CalorieApp
+    extends StatelessWidget {
   const CalorieApp({super.key});
 
   @override
@@ -13,8 +14,10 @@ class CalorieApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Calorie Counter',
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: man_hinh_chinh(), 
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: ManHinhChinh(),
     );
   }
 }
