@@ -653,8 +653,14 @@ class _ManHinhChinhState
                 label: 'Lịch sử',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.note),
-                label: 'Ghi chú',
+                icon: Icon(
+                  Icons.fitness_center,
+                ),
+                label: 'Luyện tập',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.group),
+                label: 'Thông tin nhóm',
               ),
             ],
           ),
