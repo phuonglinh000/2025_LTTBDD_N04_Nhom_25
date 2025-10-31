@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'man_hinh_ghi_chu.dart';
 
-class ManHinhChinh
-    extends StatefulWidget {
+class ManHinhChinh extends StatefulWidget {
   const ManHinhChinh({super.key});
 
   @override
@@ -20,34 +20,25 @@ class _ManHinhChinhState
   String _gender = 'Nữ';
   String _activityLevel = 'Nhiều';
 
-  final List<Map<String, dynamic>>
-  _meals = [
+  final List<Map<String, dynamic>> _meals = [
     {'name': 'Chuối', 'calories': 200},
     {'name': 'Cơm', 'calories': 130},
-    {
-      'name': 'Trứng luộc',
-      'calories': 75,
-    },
+    {'name': 'Trứng luộc', 'calories': 75},
   ];
 
-  final TextEditingController
-  _heightController =
+  final TextEditingController _heightController =
       TextEditingController();
-  final TextEditingController
-  _weightController =
+  final TextEditingController _weightController =
       TextEditingController();
-  final TextEditingController
-  _ageController =
+  final TextEditingController _ageController =
       TextEditingController();
-  final TextEditingController
-  _nameController =
+  final TextEditingController _nameController =
       TextEditingController();
 
   double? _bmi;
   double? _tdee;
 
-  final Map<String, double>
-  _activityFactors = {
+  final Map<String, double> _activityFactors = {
     'Ít vận động': 1.2,
     'Vận động nhẹ': 1.375,
     'Trung bình': 1.55,
@@ -74,12 +65,9 @@ class _ManHinhChinhState
   @override
   void initState() {
     super.initState();
-    _heightController.text = _height
-        .toString();
-    _weightController.text = _weight
-        .toString();
-    _ageController.text = _age
-        .toString();
+    _heightController.text = _height.toString();
+    _weightController.text = _weight.toString();
+    _ageController.text = _age.toString();
     _nameController.text = _userName;
   }
 
@@ -99,9 +87,7 @@ class _ManHinhChinhState
     final weight = double.tryParse(
       _weightController.text,
     );
-    final age = int.tryParse(
-      _ageController.text,
-    );
+    final age = int.tryParse(_ageController.text);
 
     if (heightCm == null ||
         weight == null ||
@@ -110,8 +96,7 @@ class _ManHinhChinhState
       return;
 
     final heightM = heightCm / 100;
-    final bmi =
-        weight / (heightM * heightM);
+    final bmi = weight / (heightM * heightM);
 
     double bmr;
     if (_gender == 'Nam') {
@@ -157,22 +142,20 @@ class _ManHinhChinhState
 
   Widget _buildPageContent() {
     if (_selectedIndex == 0) {
-      final int totalCalories = _meals
-          .fold(
-            0,
-            (sum, item) =>
-                sum +
-                (item['calories']
-                    as int),
-          );
-      final double goal =
-          _tdee ?? 2000.0;
+      final int totalCalories = _meals.fold(
+        0,
+        (sum, item) =>
+            sum + (item['calories'] as int),
+      );
+      final double goal = _tdee ?? 2000.0;
 
       double progress = (goal > 0)
           ? (totalCalories / goal)
           : 0.0;
-      final displayProgress = progress
-          .clamp(0.0, 1.0);
+      final displayProgress = progress.clamp(
+        0.0,
+        1.0,
+      );
 
       return Column(
         crossAxisAlignment:
@@ -182,52 +165,40 @@ class _ManHinhChinhState
             _getTodayText(),
             style: const TextStyle(
               fontSize: 20,
-              fontWeight:
-                  FontWeight.bold,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            '👋 Xin chào, $_userName!',
-          ),
+          Text('👋 Xin chào, $_userName!'),
           const SizedBox(height: 16),
 
           Card(
             color: Colors.pink[50],
-            margin:
-                const EdgeInsets.only(
-                  bottom: 16,
-                ),
+            margin: const EdgeInsets.only(
+              bottom: 16,
+            ),
             child: Padding(
-              padding:
-                  const EdgeInsets.all(
-                    12.0,
-                  ),
+              padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: [
                   const CircleAvatar(
                     radius: 28,
                     backgroundColor:
-                        Colors
-                            .pinkAccent,
+                        Colors.pinkAccent,
                     child: Icon(
                       Icons.person,
-                      color:
-                          Colors.white,
+                      color: Colors.white,
                       size: 32,
                     ),
                   ),
-                  const SizedBox(
-                    width: 16,
-                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Text(
                       '$_userName - ${_height.toStringAsFixed(0)}cm / ${_weight.toStringAsFixed(0)}kg',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight:
-                            FontWeight
-                                .bold,
+                            FontWeight.bold,
                       ),
                     ),
                   ),
@@ -238,103 +209,75 @@ class _ManHinhChinhState
 
           Card(
             color: Colors.blue[50],
-            margin:
-                const EdgeInsets.only(
-                  bottom: 16,
-                ),
+            margin: const EdgeInsets.only(
+              bottom: 16,
+            ),
             child: Padding(
-              padding:
-                  const EdgeInsets.all(
-                    12.0,
-                  ),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                    CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Tính BMI & TDEE',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight:
-                          FontWeight
-                              .bold,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   TextField(
-                    controller:
-                        _nameController,
+                    controller: _nameController,
                     decoration:
                         const InputDecoration(
-                          labelText:
-                              'Họ và tên',
+                          labelText: 'Họ và tên',
                           border:
                               OutlineInputBorder(),
                         ),
-                    onChanged:
-                        (
-                          value,
-                        ) => setState(
-                          () =>
-                              _userName =
-                                  value,
+                    onChanged: (value) =>
+                        setState(
+                          () => _userName = value,
                         ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   TextField(
-                    controller:
-                        _heightController,
+                    controller: _heightController,
                     keyboardType:
-                        TextInputType
-                            .number,
-                    decoration: const InputDecoration(
-                      labelText:
-                          'Chiều cao (cm)',
-                      border:
-                          OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    controller:
-                        _weightController,
-                    keyboardType:
-                        TextInputType
-                            .number,
-                    decoration: const InputDecoration(
-                      labelText:
-                          'Cân nặng (kg)',
-                      border:
-                          OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    controller:
-                        _ageController,
-                    keyboardType:
-                        TextInputType
-                            .number,
+                        TextInputType.number,
                     decoration:
                         const InputDecoration(
                           labelText:
-                              'Tuổi',
+                              'Chiều cao (cm)',
                           border:
                               OutlineInputBorder(),
                         ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _weightController,
+                    keyboardType:
+                        TextInputType.number,
+                    decoration:
+                        const InputDecoration(
+                          labelText:
+                              'Cân nặng (kg)',
+                          border:
+                              OutlineInputBorder(),
+                        ),
                   ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _ageController,
+                    keyboardType:
+                        TextInputType.number,
+                    decoration:
+                        const InputDecoration(
+                          labelText: 'Tuổi',
+                          border:
+                              OutlineInputBorder(),
+                        ),
+                  ),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed:
                         _calculateBMIandTDEE,
@@ -353,8 +296,7 @@ class _ManHinhChinhState
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight:
-                              FontWeight
-                                  .bold,
+                              FontWeight.bold,
                         ),
                       ),
                     ),
@@ -369,8 +311,7 @@ class _ManHinhChinhState
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight:
-                              FontWeight
-                                  .bold,
+                              FontWeight.bold,
                         ),
                       ),
                     ),
@@ -383,57 +324,51 @@ class _ManHinhChinhState
             'Tiến độ hôm nay:',
             style: TextStyle(
               fontSize: 18,
-              fontWeight:
-                  FontWeight.bold,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 10),
 
           Row(
             crossAxisAlignment:
-                CrossAxisAlignment
-                    .start,
+                CrossAxisAlignment.start,
             children: [
               Column(
                 children: [
                   Stack(
-                    alignment: Alignment
-                        .center,
+                    alignment: Alignment.center,
                     children: [
                       SizedBox(
                         height: 120,
                         width: 120,
                         child: CircularProgressIndicator(
-                          value:
-                              displayProgress,
-                          strokeWidth:
-                              10,
+                          value: displayProgress,
+                          strokeWidth: 10,
                           backgroundColor:
-                              Colors
-                                  .grey[300],
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            progress <
-                                    0.9
-                                ? Colors
-                                      .green
-                                : (progress <
-                                          1.0
-                                      ? Colors.amber
-                                      : Colors.red),
-                          ),
+                              Colors.grey[300],
+                          valueColor:
+                              AlwaysStoppedAnimation<
+                                Color
+                              >(
+                                progress < 0.9
+                                    ? Colors.green
+                                    : (progress <
+                                              1.0
+                                          ? Colors
+                                                .amber
+                                          : Colors
+                                                .red),
+                              ),
                         ),
                       ),
                       const Icon(
                         Icons.person,
                         size: 48,
-                        color: Colors
-                            .black54,
+                        color: Colors.black54,
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Text(
                     '${totalCalories.toStringAsFixed(0)} / ${goal.toStringAsFixed(0)} kcal',
                   ),
@@ -442,13 +377,11 @@ class _ManHinhChinhState
               const SizedBox(width: 20),
               Expanded(
                 child: Card(
-                  color:
-                      Colors.purple[50],
+                  color: Colors.purple[50],
                   child: Padding(
-                    padding:
-                        const EdgeInsets.all(
-                          12.0,
-                        ),
+                    padding: const EdgeInsets.all(
+                      12.0,
+                    ),
                     child: Column(
                       crossAxisAlignment:
                           CrossAxisAlignment
@@ -458,13 +391,10 @@ class _ManHinhChinhState
                           'Giá trị dinh dưỡng hôm nay:',
                           style: TextStyle(
                             fontWeight:
-                                FontWeight
-                                    .bold,
+                                FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                          height: 8,
-                        ),
+                        const SizedBox(height: 8),
                         _thanhdinhduong(
                           'Carbs',
                           180,
@@ -481,8 +411,7 @@ class _ManHinhChinhState
                           'Fat',
                           50,
                           60,
-                          Colors
-                              .pinkAccent,
+                          Colors.pinkAccent,
                         ),
                         _thanhdinhduong(
                           'Fiber',
@@ -499,34 +428,56 @@ class _ManHinhChinhState
           ),
 
           const SizedBox(height: 20),
-          const Text(
-            'Danh sách món đã ăn:',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight:
-                  FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Danh sách món đã ăn:',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.add_circle,
+                  color: Colors.green,
+                ),
+                onPressed: () {
+                  _showAddMealDialog();
+                },
+              ),
+            ],
           ),
           const SizedBox(height: 10),
+
           ListView.builder(
             shrinkWrap: true,
             physics:
                 const NeverScrollableScrollPhysics(),
             itemCount: _meals.length,
             itemBuilder: (context, index) {
-              final meal =
-                  _meals[index];
+              final meal = _meals[index];
               return Card(
                 child: ListTile(
                   leading: const Icon(
-                    Icons
-                        .restaurant_menu,
+                    Icons.restaurant_menu,
                   ),
-                  title: Text(
-                    meal['name'],
-                  ),
+                  title: Text(meal['name']),
                   subtitle: Text(
                     '${meal['calories']} kcal',
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _meals.removeAt(index);
+                      });
+                    },
                   ),
                 ),
               );
@@ -541,8 +492,7 @@ class _ManHinhChinhState
             'Lịch sử ăn uống',
             style: TextStyle(
               fontSize: 18,
-              fontWeight:
-                  FontWeight.bold,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 12),
@@ -565,8 +515,7 @@ class _ManHinhChinhState
             'Ghi chú',
             style: TextStyle(
               fontSize: 18,
-              fontWeight:
-                  FontWeight.bold,
+              fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 8),
@@ -584,141 +533,209 @@ class _ManHinhChinhState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Calorie Counter',
-        ),
+        title: const Text('Calorie Counter'),
         centerTitle: true,
+        backgroundColor: Colors.teal,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.note_alt_outlined,
+              color: Colors.white,
+            ),
+            tooltip: 'Ghi chú',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ManHinhGhiChu(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
+
       body: Padding(
-        padding: const EdgeInsets.all(
-          16.0,
-        ),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: _buildPageContent(),
         ),
       ),
-      bottomNavigationBar:
-          BottomNavigationBar(
-            currentIndex:
-                _selectedIndex,
-            onTap: _onItemTapped,
-            selectedItemColor:
-                Colors.green,
-            unselectedItemColor:
-                Colors.grey,
-            showUnselectedLabels: true,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Trang chủ',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.history,
-                ),
-                label: 'Lịch sử',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.note),
-                label: 'Ghi chú',
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Trang chủ',
           ),
-    );
-  }
-}
-
-  Widget _thanhdinhduong(
-    String name,
-    double value,
-    double goal,
-    Color color,
-  ) {
-    double progress = (value / goal).clamp(
-      0.0,
-      1.0,
-    );
-
-    String? imagePath;
-    IconData icon = Icons.circle;
-
-    switch (name.toLowerCase()) {
-      case 'carbs':
-      case 'tinh bột':
-        imagePath = 'imgs/carbs.png';
-        break;
-      case 'protein':
-      case 'đạm':
-        imagePath = 'imgs/protein.png';
-        break;
-      case 'fat':
-      case 'chất béo':
-        imagePath = 'imgs/fat.png';
-        break;
-      case 'fiber':
-      case 'chất xơ':
-        imagePath = 'imgs/fiber.png';
-        break;
-      default:
-        imagePath = 'assets/icons/default.png';
-    }
-
-   // Image.asset(imagePath, width: 50, height: 50);
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 4.0,
-      ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  imagePath != null
-                      ? Image.asset(
-                          imagePath,
-                          width: 18,
-                          height: 18,
-                          
-                        )
-                      : Icon(
-                          icon,
-                          size: 18,
-                          color: color,
-                        ),
-                  const SizedBox(width: 6),
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                '${value.toStringAsFixed(0)}/${goal.toStringAsFixed(0)}g',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'Lịch sử',
           ),
-          const SizedBox(height: 4),
-          LinearProgressIndicator(
-            value: progress,
-            color: color,
-            backgroundColor: Colors.grey[300],
-            minHeight: 8,
-            borderRadius: BorderRadius.circular(
-              10,
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.note),
+            label: 'Ghi chú',
           ),
         ],
       ),
     );
   }
+
+  void _showAddMealDialog() {
+    String newMealName = '';
+    String newCalories = '';
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Thêm món mới'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Tên món',
+                ),
+                onChanged: (value) =>
+                    newMealName = value,
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Calo (kcal)',
+                ),
+                keyboardType:
+                    TextInputType.number,
+                onChanged: (value) =>
+                    newCalories = value,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () =>
+                  Navigator.pop(context),
+              child: const Text('Hủy'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (newMealName.isNotEmpty &&
+                    newCalories.isNotEmpty) {
+                  setState(() {
+                    _meals.add({
+                      'name': newMealName,
+                      'calories':
+                          int.tryParse(
+                            newCalories,
+                          ) ??
+                          0,
+                    });
+                  });
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Thêm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+Widget _thanhdinhduong(
+  String name,
+  double value,
+  double goal,
+  Color color,
+) {
+  double progress = (value / goal).clamp(
+    0.0,
+    1.0,
+  );
+
+  String? imagePath;
+  IconData icon = Icons.circle;
+
+  switch (name.toLowerCase()) {
+    case 'carbs':
+    case 'tinh bột':
+      imagePath = 'imgs/carbs.png';
+      break;
+    case 'protein':
+    case 'đạm':
+      imagePath = 'imgs/protein.png';
+      break;
+    case 'fat':
+    case 'chất béo':
+      imagePath = 'imgs/fat.png';
+      break;
+    case 'fiber':
+    case 'chất xơ':
+      imagePath = 'imgs/fiber.png';
+      break;
+    default:
+      imagePath = 'assets/icons/default.png';
+  }
+
+  // Image.asset(imagePath, width: 50, height: 50);
+  return Padding(
+    padding: const EdgeInsets.symmetric(
+      vertical: 4.0,
+    ),
+    child: Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment:
+              MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                imagePath != null
+                    ? Image.asset(
+                        imagePath,
+                        width: 18,
+                        height: 18,
+                      )
+                    : Icon(
+                        icon,
+                        size: 18,
+                        color: color,
+                      ),
+                const SizedBox(width: 6),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              '${value.toStringAsFixed(0)}/${goal.toStringAsFixed(0)}g',
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        LinearProgressIndicator(
+          value: progress,
+          color: color,
+          backgroundColor: Colors.grey[300],
+          minHeight: 8,
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ],
+    ),
+  );
+}
