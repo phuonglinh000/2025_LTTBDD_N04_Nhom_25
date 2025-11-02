@@ -243,10 +243,31 @@ class _ManHinhChinhState
 
   final List<Map<String, dynamic>>
   _meals = [
-    {'name': 'Chuối', 'calories': 200, 'carbs': 50, 'protein': 1.0, 'fat': 1.0, 'fiber': 3.0},
-  {'name': 'Cơm', 'calories': 130, 'carbs': 28, 'protein': 2.7, 'fat': 0.3, 'fiber': 0.4},
-  {'name': 'Trứng luộc', 'calories': 75, 'carbs': 0.5, 'protein': 6.0, 'fat': 5.3, 'fiber': 0.0},
-];
+    {
+      'name': 'Chuối',
+      'calories': 200,
+      'carbs': 50,
+      'protein': 1.0,
+      'fat': 1.0,
+      'fiber': 3.0,
+    },
+    {
+      'name': 'Cơm',
+      'calories': 130,
+      'carbs': 28,
+      'protein': 2.7,
+      'fat': 0.3,
+      'fiber': 0.4,
+    },
+    {
+      'name': 'Trứng luộc',
+      'calories': 75,
+      'carbs': 0.5,
+      'protein': 6.0,
+      'fat': 5.3,
+      'fiber': 0.0,
+    },
+  ];
 
   final TextEditingController
   _heightController =
@@ -781,7 +802,6 @@ class _ManHinhChinhState
                           goalFiber,
                           Colors.teal,
                         ),
-
                       ],
                     ),
                   ),
@@ -835,13 +855,25 @@ class _ManHinhChinhState
                     meal['name'],
                   ),
                   subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                        CrossAxisAlignment
+                            .start,
                     children: [
-                      Text('Calories: ${meal['calories']} kcal'),
-                      Text('Tinh bột: ${meal['carbs'] ?? 0}g'),
-                      Text('Đạm: ${meal['protein'] ?? 0}g'),
-                      Text('Chất béo: ${meal['fat'] ?? 0}g'),
-                      Text('Chất xơ: ${meal['fiber'] ?? 0}g'),
+                      Text(
+                        'Calories: ${meal['calories']} kcal',
+                      ),
+                      Text(
+                        'Tinh bột: ${meal['carbs'] ?? 0}g',
+                      ),
+                      Text(
+                        'Đạm: ${meal['protein'] ?? 0}g',
+                      ),
+                      Text(
+                        'Chất béo: ${meal['fat'] ?? 0}g',
+                      ),
+                      Text(
+                        'Chất xơ: ${meal['fiber'] ?? 0}g',
+                      ),
                     ],
                   ),
                   trailing: IconButton(
@@ -1051,41 +1083,88 @@ class _ManHinhChinhState
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        String? localSelectedMeal =
+            selectedMealName;
+        String searchQuery = '';
+
         return AlertDialog(
           title: const Text(
             'Chọn món ăn',
           ),
           content: StatefulBuilder(
             builder: (context, setStateDialog) {
-              return DropdownButton<
-                String
-              >(
-                value: selectedMealName,
-                hint: const Text(
-                  'Chọn món...',
-                ),
-                isExpanded: true,
-                items: availableMeals.map((
-                  meal,
-                ) {
-                  return DropdownMenuItem<
+              final filteredMeals =
+                  availableMeals.where((
+                    meal,
+                  ) {
+                    final name =
+                        meal['name']
+                            .toString()
+                            .toLowerCase();
+                    return name.contains(
+                      searchQuery
+                          .toLowerCase(),
+                    );
+                  }).toList();
+
+              return Column(
+                mainAxisSize:
+                    MainAxisSize.min,
+                children: [
+                  TextField(
+                    decoration:
+                        const InputDecoration(
+                          hintText:
+                              'Tìm món...',
+                          prefixIcon: Icon(
+                            Icons
+                                .search,
+                          ),
+                        ),
+                    onChanged: (value) {
+                      setStateDialog(
+                        () {
+                          searchQuery =
+                              value;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButton<
                     String
                   >(
                     value:
-                        meal['name']
-                            as String,
-                    child: Text(
-                      meal['name']
-                          as String,
+                        localSelectedMeal,
+                    hint: const Text(
+                      'Chọn món...',
                     ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setStateDialog(() {
-                    selectedMealName =
-                        value;
-                  });
-                },
+                    isExpanded: true,
+                    items: filteredMeals.map((
+                      meal,
+                    ) {
+                      return DropdownMenuItem<
+                        String
+                      >(
+                        value:
+                            meal['name']
+                                as String,
+                        child: Text(
+                          meal['name']
+                              as String,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setStateDialog(() {
+                        localSelectedMeal =
+                            value;
+                      });
+                    },
+                  ),
+                ],
               );
             },
           ),
@@ -1098,19 +1177,21 @@ class _ManHinhChinhState
             ),
             ElevatedButton(
               onPressed: () {
-                if (selectedMealName !=
+                if (localSelectedMeal !=
                     null) {
                   final selectedMeal =
                       availableMeals.firstWhere(
                         (meal) =>
                             meal['name'] ==
-                            selectedMealName,
+                            localSelectedMeal,
                       );
 
                   setState(() {
                     _meals.add(
                       selectedMeal,
                     );
+                    selectedMealName =
+                        localSelectedMeal;
                   });
                 }
                 Navigator.pop(context);
