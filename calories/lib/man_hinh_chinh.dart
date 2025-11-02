@@ -1,6 +1,219 @@
 import 'package:calories/man_hinh_lich_su.dart';
 import 'package:flutter/material.dart';
 import 'man_hinh_ghi_chu.dart';
+import 'man_hinh_tap_luyen.dart';
+
+class DateSelector
+    extends StatefulWidget {
+  final Function(DateTime)
+  onDateSelected;
+  const DateSelector({
+    Key? key,
+    required this.onDateSelected,
+  }) : super(key: key);
+
+  @override
+  State<DateSelector> createState() =>
+      _DateSelectorState();
+}
+
+class _DateSelectorState
+    extends State<DateSelector> {
+  DateTime selectedDate =
+      DateTime.now();
+  late ScrollController
+  _scrollController;
+
+  final int totalDays = 365 * 3;
+
+  @override
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController =
+        ScrollController();
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) {
+          final middle =
+              (totalDays / 2) * 60.0;
+          if (_scrollController
+              .hasClients) {
+            _scrollController.jumpTo(
+              middle,
+            );
+          }
+        });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  String _getShortWeekday(int wd) {
+    switch (wd) {
+      case 1:
+        return 'T2';
+      case 2:
+        return 'T3';
+      case 3:
+        return 'T4';
+      case 4:
+        return 'T5';
+      case 5:
+        return 'T6';
+      case 6:
+        return 'T7';
+      case 7:
+        return 'CN';
+      default:
+        return '';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        const Row(
+          children: [
+            Text(
+              "🐝 ",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              "Chọn ngày",
+              style: TextStyle(
+                fontWeight:
+                    FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 90,
+          child: ListView.builder(
+            controller:
+                _scrollController,
+            scrollDirection:
+                Axis.horizontal,
+            physics:
+                const BouncingScrollPhysics(),
+            itemCount: totalDays,
+            itemBuilder: (context, index) {
+              final offset =
+                  index -
+                  (totalDays ~/ 2);
+              final day = DateTime.now()
+                  .add(
+                    Duration(
+                      days: offset,
+                    ),
+                  );
+
+              final isSelected =
+                  day.year ==
+                      selectedDate
+                          .year &&
+                  day.month ==
+                      selectedDate
+                          .month &&
+                  day.day ==
+                      selectedDate.day;
+
+              return GestureDetector(
+                onTap: () {
+                  setState(
+                    () => selectedDate =
+                        day,
+                  );
+                  widget.onDateSelected(
+                    day,
+                  );
+                },
+                child: AnimatedContainer(
+                  duration:
+                      const Duration(
+                        milliseconds:
+                            180,
+                      ),
+                  margin:
+                      const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 6,
+                      ),
+                  padding:
+                      const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 12,
+                      ),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Colors.green
+                        : Colors
+                              .grey[200],
+                    borderRadius:
+                        BorderRadius.circular(
+                          12,
+                        ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment:
+                        MainAxisAlignment
+                            .center,
+                    children: [
+                      Text(
+                        _getShortWeekday(
+                          day.weekday,
+                        ),
+                        style: TextStyle(
+                          color:
+                              isSelected
+                              ? Colors
+                                    .white
+                              : Colors
+                                    .black54,
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        '${day.day}/${day.month}',
+                        style: TextStyle(
+                          color:
+                              isSelected
+                              ? Colors
+                                    .white
+                              : Colors
+                                    .black,
+                          fontWeight:
+                              FontWeight
+                                  .bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class ManHinhChinh
     extends StatefulWidget {
@@ -21,6 +234,9 @@ class _ManHinhChinhState
   int _age = 20;
   String _gender = 'Nữ';
   String _activityLevel = 'Nhiều';
+
+  DateTime _selectedDate =
+      DateTime.now();
 
   final List<Map<String, dynamic>>
   _meals = [
@@ -57,22 +273,6 @@ class _ManHinhChinhState
     'Rất nhiều': 1.9,
   };
 
-  String _getTodayText() {
-    final now = DateTime.now();
-    final weekdays = [
-      'Thứ Hai',
-      'Thứ Ba',
-      'Thứ Tư',
-      'Thứ Năm',
-      'Thứ Sáu',
-      'Thứ Bảy',
-      'Chủ Nhật',
-    ];
-    final weekday =
-        weekdays[(now.weekday - 1) % 7];
-    return '$weekday, ${now.day}/${now.month}/${now.year}';
-  }
-
   @override
   void initState() {
     super.initState();
@@ -92,6 +292,40 @@ class _ManHinhChinhState
     _ageController.dispose();
     _nameController.dispose();
     super.dispose();
+  }
+
+  String _getTodayText() {
+    final now = DateTime.now();
+    final weekdays = [
+      'Thứ Hai',
+      'Thứ Ba',
+      'Thứ Tư',
+      'Thứ Năm',
+      'Thứ Sáu',
+      'Thứ Bảy',
+      'Chủ Nhật',
+    ];
+    final weekday =
+        weekdays[(now.weekday - 1) % 7];
+    return '$weekday, ${now.day}/${now.month}/${now.year}';
+  }
+
+  String _getFormattedDate(
+    DateTime date,
+  ) {
+    final weekdays = [
+      'Thứ Hai',
+      'Thứ Ba',
+      'Thứ Tư',
+      'Thứ Năm',
+      'Thứ Sáu',
+      'Thứ Bảy',
+      'Chủ Nhật',
+    ];
+    final weekday =
+        weekdays[(date.weekday - 1) %
+            7];
+    return '$weekday, ${date.day}/${date.month}/${date.year}';
   }
 
   void _calculateBMIandTDEE() {
@@ -169,7 +403,6 @@ class _ManHinhChinhState
           );
       final double goal =
           _tdee ?? 2000.0;
-
       double progress = (goal > 0)
           ? (totalCalories / goal)
           : 0.0;
@@ -180,8 +413,20 @@ class _ManHinhChinhState
         crossAxisAlignment:
             CrossAxisAlignment.start,
         children: [
+          DateSelector(
+            onDateSelected:
+                (selectedDate) {
+                  setState(() {
+                    _selectedDate =
+                        selectedDate;
+                  });
+                },
+          ),
+          const SizedBox(height: 8),
           Text(
-            _getTodayText(),
+            _getFormattedDate(
+              _selectedDate,
+            ),
             style: const TextStyle(
               fontSize: 20,
               fontWeight:
@@ -520,7 +765,7 @@ class _ManHinhChinhState
                   color: Colors.green,
                 ),
                 onPressed: () {
-                  _showAddMealDialog();
+                  _themmonan();
                 },
               ),
             ],
@@ -570,25 +815,10 @@ class _ManHinhChinhState
       return ManHinhLichSu(
         meals: _meals,
       );
-    } else {
-      return const Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Ghi chú',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight:
-                  FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Bạn có thể thêm ghi chú hoặc lời nhắc ở đây.',
-          ),
-        ],
-      );
+    } else if (_selectedIndex == 2) {
+      return const ManHinhTapLuyen();
+    } else if (_selectedIndex == 3) {
+      return const SizedBox.shrink();
     }
 
     return const SizedBox();
@@ -622,15 +852,19 @@ class _ManHinhChinhState
           ),
         ],
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(
-          16.0,
-        ),
-        child: SingleChildScrollView(
-          child: _buildPageContent(),
-        ),
-      ),
+      body: _selectedIndex == 2
+          ? _buildPageContent()
+          : Padding(
+              padding:
+                  const EdgeInsets.all(
+                    16.0,
+                  ),
+              child: ListView(
+                children: [
+                  _buildPageContent(),
+                ],
+              ),
+            ),
       bottomNavigationBar:
           BottomNavigationBar(
             currentIndex:
@@ -667,176 +901,234 @@ class _ManHinhChinhState
     );
   }
 
-  void _showAddMealDialog() {
-    String newMealName = '';
-    String newCalories = '';
+  void _themmonan() {
+  String newMealName = '';
+  String newCalories = '';
+  final List<Map<String, dynamic>> availableMeals = [
+    {'name': 'Cơm', 'calories': 130},
+    {'name': 'Phở bò', 'calories': 400},
+    {'name': 'Trứng luộc', 'calories': 75},
+    {'name': 'Chuối', 'calories': 200},
+    {'name': 'Sữa tươi', 'calories': 150},
+    {'name': 'Bánh mì', 'calories': 250},
+    {'name': 'Cá hồi', 'calories': 300},
+    {'name': 'Cà chua', 'calories': 300},
+    {'name': 'Chè đỗ đen', 'calories': 420},
+    {'name': 'Cá ba sa', 'calories': 300},
+    {'name': 'Thịt lợn rang', 'calories': 150},
+    {'name': 'Cà chua', 'calories': 300},
+    {'name': 'Dưa chuột', 'calories': 15},
+    {'name': 'Trà sữa', 'calories': 450},
+    {'name': 'Cà phê đen', 'calories': 50},
+    {'name': 'Thịt bò xào', 'calories': 250},
+    {'name': 'Thịt lợn thăn', 'calories': 300},
+    {'name': 'Thịt nạc vai', 'calories': 300},
+    {'name': 'Lạc rang', 'calories': 300},
+    {'name': 'Ổi', 'calories': 300},
+    {'name': 'Cá chim', 'calories': 300},
+    {'name': 'Cá trê', 'calories': 300},
+    {'name': 'Cua', 'calories': 300},
+    {'name': 'Tôm', 'calories': 300},
+    {'name': 'Nước cam', 'calories': 300},
+    {'name': 'Bánh mì', 'calories': 300},
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text(
-            'Thêm món mới',
-          ),
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              TextField(
-                decoration:
-                    const InputDecoration(
-                      labelText:
-                          'Tên món',
+  ];
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setStateDialog) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text('Thêm món mới'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Món ăn :'),
+                  const SizedBox(height: 6),
+                  Autocomplete<Map<String, dynamic>>(
+                    displayStringForOption: (meal) =>
+                        '${meal['name']} (${meal['calories']} kcal)',
+                    optionsBuilder:
+                        (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text.isEmpty) {
+                        return const Iterable<Map<String, dynamic>>.empty();
+                      }
+                      return availableMeals.where((meal) => meal['name']
+                          .toLowerCase()
+                          .contains(textEditingValue.text.toLowerCase()));
+                    },
+                    onSelected: (meal) {
+                      setStateDialog(() {
+                        newMealName = meal['name'];
+                        newCalories = meal['calories'].toString();
+                      });
+                    },
+                    fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+                      return TextField(
+                        controller: controller,
+                        focusNode: focusNode,
+                        decoration: const InputDecoration(
+                          labelText: 'Tìm kiếm món ăn',
+                          border: OutlineInputBorder(),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  const Text('Thêm món mới:'),
+                  const SizedBox(height: 6),
+                  TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Tên món',
+                      border: OutlineInputBorder(),
                     ),
-                onChanged: (value) =>
-                    newMealName = value,
+                    onChanged: (value) => newMealName = value,
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Calo (kcal)',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => newCalories = value,
+                  ),
+                ],
               ),
-              TextField(
-                decoration:
-                    const InputDecoration(
-                      labelText:
-                          'Calo (kcal)',
-                    ),
-                keyboardType:
-                    TextInputType
-                        .number,
-                onChanged: (value) =>
-                    newCalories = value,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (newMealName.isNotEmpty && newCalories.isNotEmpty) {
+                    setState(() {
+                      _meals.add({
+                        'name': newMealName,
+                        'calories': int.tryParse(newCalories) ?? 0,
+                      });
+                    });
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('Thêm'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+
+  Widget _thanhdinhduong(
+    String name,
+    double value,
+    double goal,
+    Color color,
+  ) {
+    double progress = (value / goal)
+        .clamp(0.0, 1.0);
+
+    String? imagePath;
+    IconData icon = Icons.circle;
+
+    switch (name.toLowerCase()) {
+      case 'carbs':
+      case 'tinh bột':
+        imagePath = 'imgs/carbs.png';
+        break;
+      case 'protein':
+      case 'đạm':
+        imagePath = 'imgs/protein.png';
+        break;
+      case 'fat':
+      case 'chất béo':
+        imagePath = 'imgs/fat.png';
+        break;
+      case 'fiber':
+      case 'chất xơ':
+        imagePath = 'imgs/fiber.png';
+        break;
+      default:
+        imagePath =
+            'assets/icons/default.png';
+    }
+
+    return Padding(
+      padding:
+          const EdgeInsets.symmetric(
+            vertical: 4.0,
+          ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment
+                    .spaceBetween,
+            children: [
+              Row(
+                children: [
+                  imagePath != null
+                      ? Image.asset(
+                          imagePath,
+                          width: 18,
+                          height: 18,
+                        )
+                      : Icon(
+                          icon,
+                          size: 18,
+                          color: color,
+                        ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Text(
+                    name,
+                    style:
+                        const TextStyle(
+                          fontSize: 14,
+                        ),
+                  ),
+                ],
+              ),
+              Text(
+                '${value.toStringAsFixed(0)}/${goal.toStringAsFixed(0)}g',
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () =>
-                  Navigator.pop(
-                    context,
-                  ),
-              child: const Text('Hủy'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (newMealName
-                        .isNotEmpty &&
-                    newCalories
-                        .isNotEmpty) {
-                  setState(() {
-                    _meals.add({
-                      'name':
-                          newMealName,
-                      'calories':
-                          int.tryParse(
-                            newCalories,
-                          ) ??
-                          0,
-                    });
-                  });
-                  Navigator.pop(
-                    context,
-                  );
-                }
-              },
-              child: const Text('Thêm'),
-            ),
-          ],
-        );
-      },
+          const SizedBox(height: 4),
+          ClipRRect(
+            borderRadius:
+                BorderRadius.circular(
+                  10,
+                ),
+            child:
+                LinearProgressIndicator(
+                  value: progress,
+                  color: color,
+                  backgroundColor:
+                      Colors.grey[300],
+                  minHeight: 8,
+                ),
+          ),
+        ],
+      ),
     );
   }
-}
-
-Widget _thanhdinhduong(
-  String name,
-  double value,
-  double goal,
-  Color color,
-) {
-  double progress = (value / goal)
-      .clamp(0.0, 1.0);
-
-  String? imagePath;
-  IconData icon = Icons.circle;
-
-  switch (name.toLowerCase()) {
-    case 'carbs':
-    case 'tinh bột':
-      imagePath = 'imgs/carbs.png';
-      break;
-    case 'protein':
-    case 'đạm':
-      imagePath = 'imgs/protein.png';
-      break;
-    case 'fat':
-    case 'chất béo':
-      imagePath = 'imgs/fat.png';
-      break;
-    case 'fiber':
-    case 'chất xơ':
-      imagePath = 'imgs/fiber.png';
-      break;
-    default:
-      imagePath =
-          'assets/icons/default.png';
-  }
-
-  // Image.asset(imagePath, width: 50, height: 50);
-  return Padding(
-    padding: const EdgeInsets.symmetric(
-      vertical: 4.0,
-    ),
-    child: Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment:
-              MainAxisAlignment
-                  .spaceBetween,
-          children: [
-            Row(
-              children: [
-                imagePath != null
-                    ? Image.asset(
-                        imagePath,
-                        width: 18,
-                        height: 18,
-                      )
-                    : Icon(
-                        icon,
-                        size: 18,
-                        color: color,
-                      ),
-                const SizedBox(
-                  width: 6,
-                ),
-                Text(
-                  name,
-                  style:
-                      const TextStyle(
-                        fontSize: 14,
-                      ),
-                ),
-              ],
-            ),
-            Text(
-              '${value.toStringAsFixed(0)}/${goal.toStringAsFixed(0)}g',
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        LinearProgressIndicator(
-          value: progress,
-          color: color,
-          backgroundColor:
-              Colors.grey[300],
-          minHeight: 8,
-          borderRadius:
-              BorderRadius.circular(10),
-        ),
-      ],
-    ),
-  );
 }
