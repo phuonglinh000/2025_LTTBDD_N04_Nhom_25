@@ -24,7 +24,11 @@ class _DateSelectorState
   late ScrollController
   _scrollController;
 
-final int totalDays = DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day;
+  final int totalDays = DateTime(
+    DateTime.now().year,
+    DateTime.now().month + 1,
+    0,
+  ).day;
 
   @override
   void initState() {
@@ -110,8 +114,11 @@ final int totalDays = DateTime(DateTime.now().year, DateTime.now().month + 1, 0)
             itemCount: totalDays,
             itemBuilder: (context, index) {
               final day = index + 1;
-              final date = DateTime(DateTime.now().year, DateTime.now().month, day);
-
+              final date = DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                day,
+              );
 
               final isSelected =
                   date.year ==
@@ -159,31 +166,48 @@ final int totalDays = DateTime(DateTime.now().year, DateTime.now().month + 1, 0)
                           12,
                         ),
                   ),
-                child: Column(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Text(
-      _getShortWeekday(date.weekday),
-      style: TextStyle(
-        color: isSelected ? Colors.white : Colors.black54,
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
-    const SizedBox(height: 4),
-    Text(
-      '$day',
-      style: TextStyle(
-        color: isSelected ? Colors.white : Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 16,
-      ),
-    ),
-  ],
-),
-
-
-
+                  child: Column(
+                    mainAxisAlignment:
+                        MainAxisAlignment
+                            .center,
+                    children: [
+                      Text(
+                        _getShortWeekday(
+                          date.weekday,
+                        ),
+                        style: TextStyle(
+                          color:
+                              isSelected
+                              ? Colors
+                                    .white
+                              : Colors
+                                    .black54,
+                          fontSize: 12,
+                          fontWeight:
+                              FontWeight
+                                  .w500,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        '$day',
+                        style: TextStyle(
+                          color:
+                              isSelected
+                              ? Colors
+                                    .white
+                              : Colors
+                                    .black,
+                          fontWeight:
+                              FontWeight
+                                  .bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -219,13 +243,10 @@ class _ManHinhChinhState
 
   final List<Map<String, dynamic>>
   _meals = [
-    {'name': 'Chuối', 'calories': 200},
-    {'name': 'Cơm', 'calories': 130},
-    {
-      'name': 'Trứng luộc',
-      'calories': 75,
-    },
-  ];
+    {'name': 'Chuối', 'calories': 200, 'carbs': 50, 'protein': 1.0, 'fat': 1.0, 'fiber': 3.0},
+  {'name': 'Cơm', 'calories': 130, 'carbs': 28, 'protein': 2.7, 'fat': 0.3, 'fiber': 0.4},
+  {'name': 'Trứng luộc', 'calories': 75, 'carbs': 0.5, 'protein': 6.0, 'fat': 5.3, 'fiber': 0.0},
+];
 
   final TextEditingController
   _heightController =
@@ -387,6 +408,47 @@ class _ManHinhChinhState
           : 0.0;
       final displayProgress = progress
           .clamp(0.0, 1.0);
+      final double totalCarbs = _meals
+          .fold(
+            0.0,
+            (sum, item) =>
+                sum +
+                ((item['carbs'] ?? 0)
+                    as num),
+          )
+          .toDouble();
+      final double totalProtein = _meals
+          .fold(
+            0.0,
+            (sum, item) =>
+                sum +
+                ((item['protein'] ?? 0)
+                    as num),
+          )
+          .toDouble();
+      final double totalFat = _meals
+          .fold(
+            0.0,
+            (sum, item) =>
+                sum +
+                ((item['fat'] ?? 0)
+                    as num),
+          )
+          .toDouble();
+      final double totalFiber = _meals
+          .fold(
+            0.0,
+            (sum, item) =>
+                sum +
+                ((item['fiber'] ?? 0)
+                    as num),
+          )
+          .toDouble();
+
+      final double goalCarbs = 250;
+      final double goalProtein = 100;
+      final double goalFat = 70;
+      final double goalFiber = 30;
 
       return Column(
         crossAxisAlignment:
@@ -693,29 +755,33 @@ class _ManHinhChinhState
                         ),
                         _thanhdinhduong(
                           'Tinh bột',
-                          180,
-                          200,
+                          totalCarbs,
+                          goalCarbs,
                           Colors.orange,
                         ),
+
                         _thanhdinhduong(
                           'Đạm',
-                          70,
-                          100,
+                          totalProtein,
+                          goalProtein,
                           Colors.green,
                         ),
+
                         _thanhdinhduong(
                           'Chất béo',
-                          50,
-                          60,
+                          totalFat,
+                          goalFat,
                           Colors
                               .pinkAccent,
                         ),
+
                         _thanhdinhduong(
                           'Chất xơ',
-                          20,
-                          30,
+                          totalFiber,
+                          goalFiber,
                           Colors.teal,
                         ),
+
                       ],
                     ),
                   ),
@@ -768,8 +834,15 @@ class _ManHinhChinhState
                   title: Text(
                     meal['name'],
                   ),
-                  subtitle: Text(
-                    '${meal['calories']} kcal',
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Calories: ${meal['calories']} kcal'),
+                      Text('Tinh bột: ${meal['carbs'] ?? 0}g'),
+                      Text('Đạm: ${meal['protein'] ?? 0}g'),
+                      Text('Chất béo: ${meal['fat'] ?? 0}g'),
+                      Text('Chất xơ: ${meal['fiber'] ?? 0}g'),
+                    ],
                   ),
                   trailing: IconButton(
                     icon: const Icon(
@@ -881,133 +954,174 @@ class _ManHinhChinhState
   }
 
   void _themmonan() {
-  String newMealName = '';
-  String newCalories = '';
-  final List<Map<String, dynamic>> availableMeals = [
-    {'name': 'Cơm', 'calories': 130},
-    {'name': 'Phở bò', 'calories': 400},
-    {'name': 'Trứng luộc', 'calories': 75},
-    {'name': 'Chuối', 'calories': 200},
-    {'name': 'Sữa tươi', 'calories': 150},
-    {'name': 'Bánh mì', 'calories': 250},
-    {'name': 'Cá hồi', 'calories': 300},
-    {'name': 'Cà chua', 'calories': 300},
-    {'name': 'Chè đỗ đen', 'calories': 420},
-    {'name': 'Cá ba sa', 'calories': 300},
-    {'name': 'Thịt lợn rang', 'calories': 150},
-    {'name': 'Cà chua', 'calories': 300},
-    {'name': 'Dưa chuột', 'calories': 15},
-    {'name': 'Trà sữa', 'calories': 450},
-    {'name': 'Cà phê đen', 'calories': 50},
-    {'name': 'Thịt bò xào', 'calories': 250},
-    {'name': 'Thịt lợn thăn', 'calories': 300},
-    {'name': 'Thịt nạc vai', 'calories': 300},
-    {'name': 'Lạc rang', 'calories': 300},
-    {'name': 'Ổi', 'calories': 300},
-    {'name': 'Cá chim', 'calories': 300},
-    {'name': 'Cá trê', 'calories': 300},
-    {'name': 'Cua', 'calories': 300},
-    {'name': 'Tôm', 'calories': 300},
-    {'name': 'Nước cam', 'calories': 300},
-    {'name': 'Bánh mì', 'calories': 300},
+    final List<Map<String, dynamic>>
+    availableMeals = [
+      {
+        'name': 'Cơm',
+        'calories': 130,
+        'carbs': 28.0,
+        'protein': 2.5,
+        'fat': 0.3,
+        'fiber': 0.2,
+      },
+      {
+        'name': 'Phở bò',
+        'calories': 400,
+        'carbs': 45.0,
+        'protein': 20.0,
+        'fat': 10.0,
+        'fiber': 2.0,
+      },
+      {
+        'name': 'Trứng luộc',
+        'calories': 75,
+        'carbs': 0.6,
+        'protein': 6.3,
+        'fat': 5.3,
+        'fiber': 0.0,
+      },
+      {
+        'name': 'Chuối',
+        'calories': 200,
+        'carbs': 50.0,
+        'protein': 1.0,
+        'fat': 1.0,
+        'fiber': 3.0,
+      },
+      {
+        'name': 'Sữa tươi',
+        'calories': 150,
+        'carbs': 12.0,
+        'protein': 8.0,
+        'fat': 8.0,
+        'fiber': 0.0,
+      },
+      {
+        'name': 'Bánh mì',
+        'calories': 250,
+        'carbs': 45.0,
+        'protein': 8.0,
+        'fat': 3.0,
+        'fiber': 2.0,
+      },
+      {
+        'name': 'Cá hồi',
+        'calories': 300,
+        'carbs': 0.0,
+        'protein': 25.0,
+        'fat': 20.0,
+        'fiber': 0.0,
+      },
+      {
+        'name': 'Cà chua',
+        'calories': 30,
+        'carbs': 7.0,
+        'protein': 1.0,
+        'fat': 0.2,
+        'fiber': 1.5,
+      },
+      {
+        'name': 'Chè đỗ đen',
+        'calories': 420,
+        'carbs': 80.0,
+        'protein': 10.0,
+        'fat': 5.0,
+        'fiber': 6.0,
+      },
+      {
+        'name': 'Lạc rang',
+        'calories': 300,
+        'carbs': 8.0,
+        'protein': 13.0,
+        'fat': 25.0,
+        'fiber': 3.0,
+      },
+      {
+        'name': 'Ổi',
+        'calories': 80,
+        'carbs': 14.0,
+        'protein': 1.0,
+        'fat': 0.5,
+        'fiber': 5.0,
+      },
+    ];
 
-  ];
+    String? selectedMealName;
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setStateDialog) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            title: const Text('Thêm món mới'),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Món ăn :'),
-                  const SizedBox(height: 6),
-                  Autocomplete<Map<String, dynamic>>(
-                    displayStringForOption: (meal) =>
-                        '${meal['name']} (${meal['calories']} kcal)',
-                    optionsBuilder:
-                        (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<Map<String, dynamic>>.empty();
-                      }
-                      return availableMeals.where((meal) => meal['name']
-                          .toLowerCase()
-                          .contains(textEditingValue.text.toLowerCase()));
-                    },
-                    onSelected: (meal) {
-                      setStateDialog(() {
-                        newMealName = meal['name'];
-                        newCalories = meal['calories'].toString();
-                      });
-                    },
-                    fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-                      return TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        decoration: const InputDecoration(
-                          labelText: 'Tìm kiếm món ăn',
-                          border: OutlineInputBorder(),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  const Text('Thêm món mới:'),
-                  const SizedBox(height: 6),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Tên món',
-                      border: OutlineInputBorder(),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Chọn món ăn',
+          ),
+          content: StatefulBuilder(
+            builder: (context, setStateDialog) {
+              return DropdownButton<
+                String
+              >(
+                value: selectedMealName,
+                hint: const Text(
+                  'Chọn món...',
+                ),
+                isExpanded: true,
+                items: availableMeals.map((
+                  meal,
+                ) {
+                  return DropdownMenuItem<
+                    String
+                  >(
+                    value:
+                        meal['name']
+                            as String,
+                    child: Text(
+                      meal['name']
+                          as String,
                     ),
-                    onChanged: (value) => newMealName = value,
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Calo (kcal)',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) => newCalories = value,
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Hủy'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (newMealName.isNotEmpty && newCalories.isNotEmpty) {
-                    setState(() {
-                      _meals.add({
-                        'name': newMealName,
-                        'calories': int.tryParse(newCalories) ?? 0,
-                      });
-                    });
-                    Navigator.pop(context);
-                  }
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setStateDialog(() {
+                    selectedMealName =
+                        value;
+                  });
                 },
-                child: const Text('Thêm'),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
-}
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Hủy'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (selectedMealName !=
+                    null) {
+                  final selectedMeal =
+                      availableMeals.firstWhere(
+                        (meal) =>
+                            meal['name'] ==
+                            selectedMealName,
+                      );
 
+                  setState(() {
+                    _meals.add(
+                      selectedMeal,
+                    );
+                  });
+                }
+                Navigator.pop(context);
+              },
+              child: const Text('Thêm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _thanhdinhduong(
     String name,
