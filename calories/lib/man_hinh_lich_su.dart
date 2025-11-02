@@ -56,7 +56,7 @@ class ManHinhLichSu extends StatelessWidget {
                         toY: meal['calories'].toDouble(),
                         width: 20,
                         borderRadius: BorderRadius.circular(4),
-                        color: Colors.lightBlueAccent,
+                        color: const Color.fromARGB(255, 136, 169, 226),
                       ),
                     ],
                   );

@@ -24,9 +24,8 @@ class _DateSelectorState
   late ScrollController
   _scrollController;
 
-  final int totalDays = 365 * 3;
+final int totalDays = DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day;
 
-  @override
   @override
   void initState() {
     super.initState();
@@ -110,34 +109,28 @@ class _DateSelectorState
                 const BouncingScrollPhysics(),
             itemCount: totalDays,
             itemBuilder: (context, index) {
-              final offset =
-                  index -
-                  (totalDays ~/ 2);
-              final day = DateTime.now()
-                  .add(
-                    Duration(
-                      days: offset,
-                    ),
-                  );
+              final day = index + 1;
+              final date = DateTime(DateTime.now().year, DateTime.now().month, day);
+
 
               final isSelected =
-                  day.year ==
+                  date.year ==
                       selectedDate
                           .year &&
-                  day.month ==
+                  date.month ==
                       selectedDate
                           .month &&
-                  day.day ==
+                  date.day ==
                       selectedDate.day;
 
               return GestureDetector(
                 onTap: () {
                   setState(
                     () => selectedDate =
-                        day,
+                        date,
                   );
                   widget.onDateSelected(
-                    day,
+                    date,
                   );
                 },
                 child: AnimatedContainer(
@@ -166,45 +159,31 @@ class _DateSelectorState
                           12,
                         ),
                   ),
-                  child: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment
-                            .center,
-                    children: [
-                      Text(
-                        _getShortWeekday(
-                          day.weekday,
-                        ),
-                        style: TextStyle(
-                          color:
-                              isSelected
-                              ? Colors
-                                    .white
-                              : Colors
-                                    .black54,
-                          fontSize: 13,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        '${day.day}/${day.month}',
-                        style: TextStyle(
-                          color:
-                              isSelected
-                              ? Colors
-                                    .white
-                              : Colors
-                                    .black,
-                          fontWeight:
-                              FontWeight
-                                  .bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: Column(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Text(
+      _getShortWeekday(date.weekday),
+      style: TextStyle(
+        color: isSelected ? Colors.white : Colors.black54,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    const SizedBox(height: 4),
+    Text(
+      '$day',
+      style: TextStyle(
+        color: isSelected ? Colors.white : Colors.black,
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+    ),
+  ],
+),
+
+
+
                 ),
               );
             },
