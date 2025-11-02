@@ -639,12 +639,12 @@ class _ManHinhChinhState
                                   .grey[300],
                           valueColor: AlwaysStoppedAnimation<Color>(
                             progress <
-                                    0.9
+                                    1.0
                                 ? Colors
-                                      .green
-                                : (progress <
+                                      .amber
+                                : (progress ==
                                           1.0
-                                      ? Colors.amber
+                                      ? Colors.green
                                       : Colors.red),
                           ),
                         ),
@@ -692,26 +692,26 @@ class _ManHinhChinhState
                           height: 8,
                         ),
                         _thanhdinhduong(
-                          'Carbs',
+                          'Tinh bột',
                           180,
                           200,
                           Colors.orange,
                         ),
                         _thanhdinhduong(
-                          'Protein',
+                          'Đạm',
                           70,
                           100,
                           Colors.green,
                         ),
                         _thanhdinhduong(
-                          'Fat',
+                          'Chất béo',
                           50,
                           60,
                           Colors
                               .pinkAccent,
                         ),
                         _thanhdinhduong(
-                          'Fiber',
+                          'Chất xơ',
                           20,
                           30,
                           Colors.teal,
