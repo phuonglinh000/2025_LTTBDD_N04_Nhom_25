@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
+import 'quan_ly_ngon_ngu.dart';
 
 class ManHinhLichSu extends StatelessWidget {
   final List<Map<String, dynamic>> meals;
@@ -8,20 +10,24 @@ class ManHinhLichSu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context);
+    Lang.currentLang = provider.locale.languageCode;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const Text(
-            'Lịch sử ăn uống',
-            style: TextStyle(
-              fontSize: 18,
+          Text(
+            Lang.t('meal_history'),
+            style: const TextStyle(
+              fontSize: 20,
               fontWeight: FontWeight.bold,
+              color: Color(0xFF2E8B57),
             ),
           ),
           const SizedBox(height: 20),
 
-          
+          // === Biểu đồ lịch sử ăn uống ===
           SizedBox(
             height: 250,
             child: BarChart(
@@ -33,7 +39,9 @@ class ManHinhLichSu extends StatelessWidget {
                       showTitles: true,
                       getTitlesWidget: (double value, TitleMeta meta) {
                         final index = value.toInt();
-                        if (index < 0 || index >= meals.length) return const SizedBox();
+                        if (index < 0 || index >= meals.length) {
+                          return const SizedBox();
+                        }
                         return Text(
                           meals[index]['name'],
                           style: const TextStyle(fontSize: 12),
@@ -42,7 +50,13 @@ class ManHinhLichSu extends StatelessWidget {
                     ),
                   ),
                   leftTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: true, reservedSize: 40),
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      getTitlesWidget: (value, meta) {
+                        return Text('${value.toInt()}');
+                      },
+                    ),
                   ),
                 ),
                 borderData: FlBorderData(show: false),
@@ -67,10 +81,14 @@ class ManHinhLichSu extends StatelessWidget {
 
           const SizedBox(height: 24),
 
+          // === Danh sách chi tiết món ăn ===
           ...meals.map(
             (m) => ListTile(
               title: Text(m['name']),
-              trailing: Text('${m['calories']} kcal'),
+              trailing: Text(
+                '${m['calories']} ${Lang.t('kcal')}',
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ],

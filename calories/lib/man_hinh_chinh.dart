@@ -6,7 +6,7 @@ import 'chon_ngay.dart';
 import 'package:provider/provider.dart';
 import 'quan_ly_ngon_ngu.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'man_hinh_thong_tin_nhom.dart';
 
 class ManHinhChinh
     extends StatefulWidget {
@@ -709,7 +709,7 @@ class _ManHinhChinhState
     } else if (_selectedIndex == 2) {
       return const ManHinhTapLuyen();
     } else if (_selectedIndex == 3) {
-      return const SizedBox.shrink();
+      return  ManHinhThongTinNhom();
     }
 
     return const SizedBox();

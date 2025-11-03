@@ -58,6 +58,8 @@ class Lang {
       '14_days': '14 ngày',
       '18_days': '18 ngày',
       '28_days': '28 ngày',
+      'meal_history': 'Lịch sử ăn uống',
+
     },
     'en': {
       'hello': 'Hello',
@@ -101,6 +103,8 @@ class Lang {
       '14_days': '14 days',
       '18_days': '18 days',
       '28_days': '28 days',
+      'meal_history': 'Meal History',
+
     },
   };
 
