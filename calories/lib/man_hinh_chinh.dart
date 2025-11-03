@@ -5,6 +5,8 @@ import 'man_hinh_tap_luyen.dart';
 import 'chon_ngay.dart';
 import 'package:provider/provider.dart';
 import 'quan_ly_ngon_ngu.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class ManHinhChinh
     extends StatefulWidget {
@@ -615,7 +617,7 @@ class _ManHinhChinhState
             ],
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           Row(
             mainAxisAlignment:
                 MainAxisAlignment
