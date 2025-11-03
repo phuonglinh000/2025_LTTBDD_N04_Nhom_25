@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+//import 'lang.dart';
+import 'package:provider/provider.dart';
+import 'quan_ly_ngon_ngu.dart';
 
-class ManHinhTapLuyen extends StatelessWidget {
+
+class ManHinhTapLuyen extends StatefulWidget {
   const ManHinhTapLuyen({super.key});
 
+  @override
+  State<ManHinhTapLuyen> createState() => _ManHinhTapLuyenState();
+}
+
+class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
   Widget _itemBaiTap({
     required String title,
     required String subtitle,
@@ -21,9 +30,7 @@ class ManHinhTapLuyen extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              22,
-            ),
+            borderRadius: BorderRadius.circular(22),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -33,18 +40,11 @@ class ManHinhTapLuyen extends StatelessWidget {
               ],
             ),
           ),
-          padding: const EdgeInsets.fromLTRB(
-            20,
-            0,
-            20,
-            22,
-          ),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 22),
           alignment: Alignment.bottomLeft,
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.end,
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
@@ -72,41 +72,33 @@ class ManHinhTapLuyen extends StatelessWidget {
 
   Widget _buildPageContent() {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(
-        16,
-        16,
-        16,
-        24,
-      ),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       children: [
         const SizedBox(height: 4),
-        const Text(
-          "Danh sách bài tập",
-          style: TextStyle(
+        Text(
+          Lang.t('workout_plan'),
+          style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF2E8B57),
           ),
         ),
         const SizedBox(height: 14),
-
         _itemBaiTap(
-          title: "Dành cho người mới",
-          subtitle: "14 ngày",
+          title: Lang.t('newbie'),
+          subtitle: Lang.t('14_days'),
           assetPath: "imgs/14.png",
         ),
         const SizedBox(height: 16),
-
         _itemBaiTap(
-          title: "Giảm cân toàn thân",
-          subtitle: "28 ngày",
+          title: Lang.t('full_body_burn'),
+          subtitle: Lang.t('28_days'),
           assetPath: "imgs/28.jpg",
         ),
         const SizedBox(height: 16),
-
         _itemBaiTap(
-          title: "Đốt cháy mỡ bụng",
-          subtitle: "18 ngày",
+          title: Lang.t('belly_fat_burn'),
+          subtitle: Lang.t('18_days'),
           assetPath: "imgs/18.jpg",
         ),
         const SizedBox(height: 32),
@@ -116,9 +108,13 @@ class ManHinhTapLuyen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context);
+    Lang.currentLang = provider.locale.languageCode;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(child: _buildPageContent()),
     );
   }
 }
+

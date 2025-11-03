@@ -88,7 +88,6 @@ class _ManHinhGhiChuState
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Ô nhập ghi chú mới
             TextField(
               controller: _noteController,
               decoration: InputDecoration(

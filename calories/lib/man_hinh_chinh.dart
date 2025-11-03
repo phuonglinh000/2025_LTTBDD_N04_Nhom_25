@@ -2,221 +2,9 @@ import 'package:calories/man_hinh_lich_su.dart';
 import 'package:flutter/material.dart';
 import 'man_hinh_ghi_chu.dart';
 import 'man_hinh_tap_luyen.dart';
-
-class DateSelector
-    extends StatefulWidget {
-  final Function(DateTime)
-  onDateSelected;
-  const DateSelector({
-    Key? key,
-    required this.onDateSelected,
-  }) : super(key: key);
-
-  @override
-  State<DateSelector> createState() =>
-      _DateSelectorState();
-}
-
-class _DateSelectorState
-    extends State<DateSelector> {
-  DateTime selectedDate =
-      DateTime.now();
-  late ScrollController
-  _scrollController;
-
-  final int totalDays = DateTime(
-    DateTime.now().year,
-    DateTime.now().month + 1,
-    0,
-  ).day;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _scrollController =
-        ScrollController();
-
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) {
-          final middle =
-              (totalDays / 2) * 60.0;
-          if (_scrollController
-              .hasClients) {
-            _scrollController.jumpTo(
-              middle,
-            );
-          }
-        });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  String _getShortWeekday(int wd) {
-    switch (wd) {
-      case 1:
-        return 'T2';
-      case 2:
-        return 'T3';
-      case 3:
-        return 'T4';
-      case 4:
-        return 'T5';
-      case 5:
-        return 'T6';
-      case 6:
-        return 'T7';
-      case 7:
-        return 'CN';
-      default:
-        return '';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-      children: [
-        const Row(
-          children: [
-            Text(
-              "🐝 ",
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              "Chọn ngày",
-              style: TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 90,
-          child: ListView.builder(
-            controller:
-                _scrollController,
-            scrollDirection:
-                Axis.horizontal,
-            physics:
-                const BouncingScrollPhysics(),
-            itemCount: totalDays,
-            itemBuilder: (context, index) {
-              final day = index + 1;
-              final date = DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                day,
-              );
-
-              final isSelected =
-                  date.year ==
-                      selectedDate
-                          .year &&
-                  date.month ==
-                      selectedDate
-                          .month &&
-                  date.day ==
-                      selectedDate.day;
-
-              return GestureDetector(
-                onTap: () {
-                  setState(
-                    () => selectedDate =
-                        date,
-                  );
-                  widget.onDateSelected(
-                    date,
-                  );
-                },
-                child: AnimatedContainer(
-                  duration:
-                      const Duration(
-                        milliseconds:
-                            180,
-                      ),
-                  margin:
-                      const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 6,
-                      ),
-                  padding:
-                      const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 12,
-                      ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? Colors.green
-                        : Colors
-                              .grey[200],
-                    borderRadius:
-                        BorderRadius.circular(
-                          12,
-                        ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment
-                            .center,
-                    children: [
-                      Text(
-                        _getShortWeekday(
-                          date.weekday,
-                        ),
-                        style: TextStyle(
-                          color:
-                              isSelected
-                              ? Colors
-                                    .white
-                              : Colors
-                                    .black54,
-                          fontSize: 12,
-                          fontWeight:
-                              FontWeight
-                                  .w500,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '$day',
-                        style: TextStyle(
-                          color:
-                              isSelected
-                              ? Colors
-                                    .white
-                              : Colors
-                                    .black,
-                          fontWeight:
-                              FontWeight
-                                  .bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
+import 'chon_ngay.dart';
+import 'package:provider/provider.dart';
+import 'quan_ly_ngon_ngu.dart';
 
 class ManHinhChinh
     extends StatefulWidget {
@@ -475,7 +263,7 @@ class _ManHinhChinhState
         crossAxisAlignment:
             CrossAxisAlignment.start,
         children: [
-          DateSelector(
+          chon_ngay(
             onDateSelected:
                 (selectedDate) {
                   setState(() {
@@ -497,8 +285,9 @@ class _ManHinhChinhState
           ),
           const SizedBox(height: 8),
           Text(
-            '👋 Xin chào, $_userName!',
+            "${Lang.t('hello')}, $_userName!",
           ),
+
           const SizedBox(height: 16),
 
           Card(
@@ -561,8 +350,10 @@ class _ManHinhChinhState
                     CrossAxisAlignment
                         .start,
                 children: [
-                  const Text(
-                    'Tính BMI & TDEE',
+                  Text(
+                    Lang.t(
+                      'calculate_bmi_tdee',
+                    ),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight:
@@ -576,13 +367,13 @@ class _ManHinhChinhState
                   TextField(
                     controller:
                         _nameController,
-                    decoration:
-                        const InputDecoration(
-                          labelText:
-                              'Họ và tên',
-                          border:
-                              OutlineInputBorder(),
-                        ),
+                    decoration: InputDecoration(
+                      labelText: Lang.t(
+                        'full_name',
+                      ),
+                      border:
+                          OutlineInputBorder(),
+                    ),
                     onChanged:
                         (
                           value,
@@ -601,9 +392,10 @@ class _ManHinhChinhState
                     keyboardType:
                         TextInputType
                             .number,
-                    decoration: const InputDecoration(
-                      labelText:
-                          'Chiều cao (cm)',
+                    decoration: InputDecoration(
+                      labelText: Lang.t(
+                        'height_cm',
+                      ),
                       border:
                           OutlineInputBorder(),
                     ),
@@ -617,9 +409,10 @@ class _ManHinhChinhState
                     keyboardType:
                         TextInputType
                             .number,
-                    decoration: const InputDecoration(
-                      labelText:
-                          'Cân nặng (kg)',
+                    decoration: InputDecoration(
+                      labelText: Lang.t(
+                        'weight_kg',
+                      ),
                       border:
                           OutlineInputBorder(),
                     ),
@@ -634,9 +427,11 @@ class _ManHinhChinhState
                         TextInputType
                             .number,
                     decoration:
-                        const InputDecoration(
+                        InputDecoration(
                           labelText:
-                              'Tuổi',
+                              Lang.t(
+                                'age',
+                              ),
                           border:
                               OutlineInputBorder(),
                         ),
@@ -647,8 +442,10 @@ class _ManHinhChinhState
                   ElevatedButton(
                     onPressed:
                         _calculateBMIandTDEE,
-                    child: const Text(
-                      'Tính BMI & TDEE',
+                    child: Text(
+                      Lang.t(
+                        'calculate_bmi_tdee',
+                      ),
                     ),
                   ),
                   if (_bmi != null)
@@ -674,7 +471,7 @@ class _ManHinhChinhState
                             top: 4,
                           ),
                       child: Text(
-                        'TDEE: ${_tdee!.toStringAsFixed(0)} kcal/ngày',
+                        '${Lang.t('tdee_label')} ${_tdee!.toStringAsFixed(0)} ${Lang.t('calories_per_day')}',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight:
@@ -688,8 +485,8 @@ class _ManHinhChinhState
             ),
           ),
 
-          const Text(
-            'Tiến độ hôm nay:',
+          Text(
+            Lang.t('today_progress'),
             style: TextStyle(
               fontSize: 18,
               fontWeight:
@@ -763,8 +560,10 @@ class _ManHinhChinhState
                           CrossAxisAlignment
                               .start,
                       children: [
-                        const Text(
-                          'Giá trị dinh dưỡng hôm nay:',
+                        Text(
+                          Lang.t(
+                            'today_nutrition',
+                          ),
                           style: TextStyle(
                             fontWeight:
                                 FontWeight
@@ -775,21 +574,25 @@ class _ManHinhChinhState
                           height: 8,
                         ),
                         _thanhdinhduong(
-                          'Tinh bột',
+                          Lang.t(
+                            'carbs',
+                          ),
                           totalCarbs,
                           goalCarbs,
                           Colors.orange,
                         ),
 
                         _thanhdinhduong(
-                          'Đạm',
+                          Lang.t(
+                            'protein',
+                          ),
                           totalProtein,
                           goalProtein,
                           Colors.green,
                         ),
 
                         _thanhdinhduong(
-                          'Chất béo',
+                          Lang.t('fat'),
                           totalFat,
                           goalFat,
                           Colors
@@ -797,7 +600,9 @@ class _ManHinhChinhState
                         ),
 
                         _thanhdinhduong(
-                          'Chất xơ',
+                          Lang.t(
+                            'fiber',
+                          ),
                           totalFiber,
                           goalFiber,
                           Colors.teal,
@@ -816,8 +621,8 @@ class _ManHinhChinhState
                 MainAxisAlignment
                     .spaceBetween,
             children: [
-              const Text(
-                'Danh sách món đã ăn:',
+              Text(
+                Lang.t('Menu'),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight:
@@ -936,19 +741,138 @@ class _ManHinhChinhState
           ),
         ],
       ),
-      body: _selectedIndex == 2
-          ? _buildPageContent()
-          : Padding(
-              padding:
-                  const EdgeInsets.all(
-                    16.0,
+      body: Stack(
+        children: [
+          _selectedIndex == 2
+              ? _buildPageContent()
+              : Padding(
+                  padding:
+                      const EdgeInsets.all(
+                        16.0,
+                      ),
+                  child: ListView(
+                    children: [
+                      _buildPageContent(),
+                    ],
                   ),
-              child: ListView(
-                children: [
-                  _buildPageContent(),
-                ],
+                ),
+
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: GestureDetector(
+              onTap: () {
+                final provider =
+                    Provider.of<
+                      LocaleProvider
+                    >(
+                      context,
+                      listen: false,
+                    );
+                if (provider
+                        .locale
+                        .languageCode ==
+                    'vi') {
+                  provider.setLocale(
+                    const Locale('en'),
+                  );
+                } else {
+                  provider.setLocale(
+                    const Locale('vi'),
+                  );
+                }
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 10,
+                    ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(
+                        30,
+                      ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors
+                          .black26,
+                      blurRadius: 5,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize:
+                      MainAxisSize.min,
+                  children: [
+                    Text(
+                      Provider.of<LocaleProvider>(
+                                context,
+                              ).locale.languageCode ==
+                              'vi'
+                          ? 'VI'
+                          : 'EN',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight:
+                            FontWeight
+                                .bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    AnimatedSwitcher(
+                      duration:
+                          const Duration(
+                            milliseconds:
+                                300,
+                          ),
+                      transitionBuilder:
+                          (
+                            child,
+                            animation,
+                          ) {
+                            return ScaleTransition(
+                              scale:
+                                  animation,
+                              child:
+                                  child,
+                            );
+                          },
+                      child: Text(
+                        Provider.of<
+                                      LocaleProvider
+                                    >(context)
+                                    .locale
+                                    .languageCode ==
+                                'vi'
+                            ? '🇻🇳'
+                            : '🇺🇸',
+                        key: ValueKey(
+                          Provider.of<
+                                LocaleProvider
+                              >(context)
+                              .locale
+                              .languageCode,
+                        ),
+                        style:
+                            const TextStyle(
+                              fontSize:
+                                  18,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+          ),
+        ],
+      ),
+
       bottomNavigationBar:
           BottomNavigationBar(
             currentIndex:
@@ -959,26 +883,34 @@ class _ManHinhChinhState
             unselectedItemColor:
                 Colors.grey,
             showUnselectedLabels: true,
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Trang chủ',
+                icon: const Icon(
+                  Icons.home,
+                ),
+                label: Lang.t('home'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
                   Icons.history,
                 ),
-                label: 'Lịch sử',
+                label: Lang.t(
+                  'history',
+                ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
                   Icons.fitness_center,
                 ),
-                label: 'Luyện tập',
+                label: Lang.t(
+                  'workout',
+                ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.group),
-                label: 'Thông tin nhóm',
+                icon: const Icon(
+                  Icons.group,
+                ),
+                label: Lang.t('group'),
               ),
             ],
           ),
@@ -1088,8 +1020,8 @@ class _ManHinhChinhState
         String searchQuery = '';
 
         return AlertDialog(
-          title: const Text(
-            'Chọn món ăn',
+          title: Text(
+            Lang.t('food_list'),
           ),
           content: StatefulBuilder(
             builder: (context, setStateDialog) {
@@ -1112,15 +1044,14 @@ class _ManHinhChinhState
                     MainAxisSize.min,
                 children: [
                   TextField(
-                    decoration:
-                        const InputDecoration(
-                          hintText:
-                              'Tìm món...',
-                          prefixIcon: Icon(
-                            Icons
-                                .search,
-                          ),
-                        ),
+                    decoration: InputDecoration(
+                      hintText: Lang.t(
+                        'search_menu',
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                      ),
+                    ),
                     onChanged: (value) {
                       setStateDialog(
                         () {
@@ -1138,8 +1069,10 @@ class _ManHinhChinhState
                   >(
                     value:
                         localSelectedMeal,
-                    hint: const Text(
-                      'Chọn món...',
+                    hint: Text(
+                      Lang.t(
+                        'choose_meal',
+                      ),
                     ),
                     isExpanded: true,
                     items: filteredMeals.map((
@@ -1173,7 +1106,9 @@ class _ManHinhChinhState
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Hủy'),
+              child: Text(
+                Lang.t('cancel'),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -1196,7 +1131,9 @@ class _ManHinhChinhState
                 }
                 Navigator.pop(context);
               },
-              child: const Text('Thêm'),
+              child: Text(
+                Lang.t('add'),
+              ),
             ),
           ],
         );
@@ -1218,6 +1155,7 @@ class _ManHinhChinhState
 
     switch (name.toLowerCase()) {
       case 'carbs':
+      case 'carbohydrates':
       case 'tinh bột':
         imagePath = 'imgs/carbs.png';
         break;

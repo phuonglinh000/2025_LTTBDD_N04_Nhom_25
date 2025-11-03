@@ -1,24 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'man_hinh_chinh.dart';
+import 'quan_ly_ngon_ngu.dart' hide Lang;
+import 'lang.dart';
+
 
 void main() {
-  runApp(const CalorieApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LocaleProvider(),
+      child: const CalorieApp(),
+    ),
+  );
 }
 
-class CalorieApp
-    extends StatelessWidget {
+class CalorieApp extends StatelessWidget {
   const CalorieApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context);
+
+    Lang.currentLang = provider.locale.languageCode;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Calorie Counter',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: ManHinhChinh(),
+      theme: ThemeData(primarySwatch: Colors.green),
+
+      locale: provider.locale,
+
+      supportedLocales: const [
+        Locale('en'),
+        Locale('vi'),
+      ],
+
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      home: const ManHinhChinh(),
     );
   }
 }
-
