@@ -891,7 +891,7 @@ Row(
     },
     {
       'name': 'beef_noodle',
-      'calories': 400,
+      'calories': 500,
       'carbs': 45.0,
       'protein': 20.0,
       'fat': 10.0,
@@ -915,7 +915,7 @@ Row(
     },
     {
       'name': 'milk',
-      'calories': 150,
+      'calories': 180,
       'carbs': 12.0,
       'protein': 8.0,
       'fat': 8.0,
