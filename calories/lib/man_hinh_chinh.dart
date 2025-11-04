@@ -191,10 +191,10 @@ class _ManHinhChinhState
   }
 
   String _getBmiCategory(double bmi) {
-    if (bmi < 18.5) return 'Gầy';
-    if (bmi < 25) return 'Bình thường';
-    if (bmi < 30) return 'Thừa cân';
-    return 'Béo phì';
+    if (bmi < 18.5) return Lang.t('bmi_underweight');
+    if (bmi < 25) return Lang.t('bmi_normal');
+    if (bmi < 30) return Lang.t('bmi_overweight');
+    return Lang.t('bmi_obese');
   }
 
   void _onItemTapped(int index) {
@@ -397,7 +397,7 @@ class _ManHinhChinhState
                             .number,
                     decoration: InputDecoration(
                       labelText: Lang.t(
-                        'height_cm',
+                        'height',
                       ),
                       border:
                           OutlineInputBorder(),
@@ -414,7 +414,7 @@ class _ManHinhChinhState
                             .number,
                     decoration: InputDecoration(
                       labelText: Lang.t(
-                        'weight_kg',
+                        'weight',
                       ),
                       border:
                           OutlineInputBorder(),
@@ -442,6 +442,25 @@ class _ManHinhChinhState
                   const SizedBox(
                     height: 10,
                   ),
+                  DropdownButtonFormField<String>(
+                    value: _activityLevel,decoration: 
+                    InputDecoration(
+                      labelText: Lang.t('activity_level'),border: OutlineInputBorder(),
+                    ),
+                    items: _activityFactors.keys.map((level) {
+                      return DropdownMenuItem(
+                        value: level,
+                        child: Text(level),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _activityLevel = value!;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+
                   ElevatedButton(
                     onPressed:
                         _calculateBMIandTDEE,
@@ -497,95 +516,83 @@ class _ManHinhChinhState
             ),
           ),
           const SizedBox(height: 10),
-
-          Text(
-  Lang.t('today_progress'),
-  style: const TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-  ),
-),
-const SizedBox(height: 10),
-
-Row(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    Column(
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            CircularPercentIndicator(
-              radius: 60.0,
-              lineWidth: 10.0,
-              percent: displayProgress.clamp(0.0, 1.0),
-              backgroundColor: Colors.grey[300]!,
-              progressColor: progress < 1.0
-                  ? Colors.amber
-                  : (progress == 1.0 ? Colors.green : Colors.red),
-              circularStrokeCap: CircularStrokeCap.round,
-              
-            ),
-            const Icon(
-              Icons.person,
-              size: 48,
-              color: Colors.black54,
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Text(
-          '${totalCalories.toStringAsFixed(0)} / ${goal.toStringAsFixed(0)} kcal',
-        ),
-      ],
-    ),
-    const SizedBox(width: 20),
-    Expanded(
-      child: Card(
-        color: Colors.purple[50],
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                Lang.t('today_nutrition'),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+              Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircularPercentIndicator(
+                        radius: 60.0,
+                        lineWidth: 10.0,
+                        percent: displayProgress.clamp(0.0, 1.0),
+                        backgroundColor: Colors.grey[300]!,
+                        progressColor: progress < 1.0
+                        ? Colors.amber
+                        : (progress == 1.0 ? Colors.green : Colors.red),circularStrokeCap: CircularStrokeCap.round,
+                      ),
+                      const Icon(
+                        Icons.person,
+                        size: 48,
+                        color: Colors.black54,
+                      ),
+                    ],      
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '${totalCalories.toStringAsFixed(0)} / ${goal.toStringAsFixed(0)} kcal',
+                  ),
+                ],
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Card(
+                  color: Colors.purple[50],
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          Lang.t('today_nutrition'),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        _thanhdinhduong(
+                          Lang.t('carbs'),
+                          totalCarbs,
+                          goalCarbs,
+                          Colors.orange,
+                        ),
+                        _thanhdinhduong(
+                          Lang.t('protein'),
+                          totalProtein,
+                          goalProtein,
+                          Colors.green,
+                        ),
+                        _thanhdinhduong(
+                          Lang.t('fat'),
+                          totalFat,
+                          goalFat,
+                          Colors.pinkAccent,
+                        ),
+                        _thanhdinhduong(
+                          Lang.t('fiber'),
+                          totalFiber,
+                          goalFiber,
+                        Colors.teal,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              _thanhdinhduong(
-                Lang.t('carbs'),
-                totalCarbs,
-                goalCarbs,
-                Colors.orange,
-              ),
-              _thanhdinhduong(
-                Lang.t('protein'),
-                totalProtein,
-                goalProtein,
-                Colors.green,
-              ),
-              _thanhdinhduong(
-                Lang.t('fat'),
-                totalFat,
-                goalFat,
-                Colors.pinkAccent,
-              ),
-              _thanhdinhduong(
-                Lang.t('fiber'),
-                totalFiber,
-                goalFiber,
-                Colors.teal,
               ),
             ],
           ),
-        ),
-      ),
-    ),
-  ],
-),
 
           SizedBox(height: 20.h),
           Row(

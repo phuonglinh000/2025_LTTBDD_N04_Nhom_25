@@ -72,6 +72,13 @@ class Lang {
       'guava': 'Ổi',
       'steamed_squid': 'Mực hấp',
       'stir_fried_eel': 'Lươn xào',
+      'bmi_underweight': 'Gầy',
+      'bmi_normal': 'Bình thường',
+      'bmi_overweight': 'Thừa cân',
+      'bmi_obese': 'Béo phì',
+      'activity_level': 'Mức độ hoạt động',
+
+
     },
     'en': {
       'hello': 'Hello',
@@ -129,6 +136,12 @@ class Lang {
       'guava': 'Guava',
       'steamed_squid': 'Steamed squid',
       'stir_fried_eel': 'Stir-fried eel',
+      'bmi_underweight': 'Underweight',
+      'bmi_normal': 'Normal',
+      'bmi_overweight': 'Overweight',
+      'bmi_obese': 'Obese',
+      'activity_level': 'Activity level',
+
 
     },
   };

@@ -10,35 +10,35 @@ class ManHinhThongTinNhom
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Thông Tin Nhóm',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.teal,
+            children: [
+              const Text(
+                'Thông Tin Nhóm',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            _cardThanhVien(
-              'Họ và tên: Tạ Diệu Hương',
-              'Mã sinh viên: 23010610',
-              'imgs/huong.jpg',
-            ),
+              _cardThanhVien(
+                'Họ và tên: Tạ Diệu Hương',
+                'Mã sinh viên: 23010610',
+                'imgs/huong.jpg',
+              ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            _cardThanhVien(
-              'Họ và tên: Bạch Phương Linh',
-              'Mã sinh viên: 23010562',
-              'imgs/linh.jpg',
-            ),
-          ],
+              _cardThanhVien(
+                'Họ và tên: Bạch Phương Linh',
+                'Mã sinh viên: 23010562',
+                'imgs/linh.jpg',
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
   Widget _cardThanhVien(
     String name,

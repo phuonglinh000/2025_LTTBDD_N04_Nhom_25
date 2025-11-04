@@ -43,7 +43,7 @@ class ManHinhLichSu extends StatelessWidget {
                           return const SizedBox();
                         }
                         return Text(
-                          meals[index]['name'],
+                          Lang.t(meals[index]['name']),
                           style: const TextStyle(fontSize: 12),
                         );
                       },
@@ -81,10 +81,9 @@ class ManHinhLichSu extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          // === Danh sách chi tiết món ăn ===
           ...meals.map(
             (m) => ListTile(
-              title: Text(m['name']),
+              title: Text(Lang.t(m['name'])),
               trailing: Text(
                 '${m['calories']} ${Lang.t('kcal')}',
                 style: const TextStyle(fontWeight: FontWeight.w500),
