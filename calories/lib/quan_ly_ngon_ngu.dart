@@ -77,6 +77,10 @@ class Lang {
       'bmi_overweight': 'Thừa cân',
       'bmi_obese': 'Béo phì',
       'activity_level': 'Mức độ hoạt động',
+      'group_info': 'Thông Tin Nhóm',
+      'full_name': 'Họ và tên',
+      'student_id': 'Mã sinh viên',
+      
 
 
     },
@@ -141,6 +145,10 @@ class Lang {
       'bmi_overweight': 'Overweight',
       'bmi_obese': 'Obese',
       'activity_level': 'Activity level',
+      'group_info': 'Group Information',
+      'full_name': 'Full Name',
+      'student_id': 'Student ID',
+
 
 
     },

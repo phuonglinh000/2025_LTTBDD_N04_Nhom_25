@@ -1074,7 +1074,6 @@ class _ManHinhChinhState
 }
 
 
-
   Widget _thanhdinhduong(
     String name,
     double value,

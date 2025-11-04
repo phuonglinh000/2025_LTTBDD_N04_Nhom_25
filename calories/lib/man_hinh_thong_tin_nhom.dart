@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'quan_ly_ngon_ngu.dart';
 
 class ManHinhThongTinNhom
     extends StatelessWidget {
@@ -11,8 +12,8 @@ class ManHinhThongTinNhom
           crossAxisAlignment:
               CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Thông Tin Nhóm',
+              Text(
+                Lang.t('group_info'),
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -22,16 +23,16 @@ class ManHinhThongTinNhom
               const SizedBox(height: 20),
 
               _cardThanhVien(
-                'Họ và tên: Tạ Diệu Hương',
-                'Mã sinh viên: 23010610',
+                '${Lang.t('full_name')}: Tạ Diệu Hương',
+                '${Lang.t('student_id')}: 23010610',
                 'imgs/huong.jpg',
               ),
 
               const SizedBox(height: 20),
 
               _cardThanhVien(
-                'Họ và tên: Bạch Phương Linh',
-                'Mã sinh viên: 23010562',
+                '${Lang.t('full_name')}: Bạch Phương Linh',
+                '${Lang.t('student_id')}: 23010562',
                 'imgs/linh.jpg',
               ),
             ],
