@@ -31,13 +31,7 @@ class Lang {
       'weight': 'Cân nặng (kg)',
       'age': 'Tuổi',
       'calculate': 'Tính BMI & TDEE',
-      'monday': 'Thứ Hai',
-      'tuesday': 'Thứ Ba',
-      'wednesday': 'Thứ Tư',
-      'thursday': 'Thứ Năm',
-      'friday': 'Thứ Sáu',
-      'saturday': 'Thứ Bảy',
-      'sunday': 'Chủ Nhật',
+      
       'tdee_label': 'TDEE:',
       'calories_per_day': 'kcal/ngày',
       'today_progress':
@@ -102,6 +96,13 @@ class Lang {
       'edit': 'Chỉnh sửa',
       'no_notes_yet':
           'Chưa có ghi chú nào',
+          'monday': 'Thứ Hai',
+  'tuesday': 'Thứ Ba',
+  'wednesday': 'Thứ Tư',
+  'thursday': 'Thứ Năm',
+  'friday': 'Thứ Sáu',
+  'saturday': 'Thứ Bảy',
+  'sunday': 'Chủ Nhật',
     },
     'en': {
       'hello': 'Hello',
@@ -184,6 +185,13 @@ class Lang {
           'Enter a new note...',
       'edit': 'Edit',
       'no_notes_yet': 'No notes yet',
+      'monday': 'Monday',
+      'tuesday': 'Tuesday',
+      'wednesday': 'Wednesday',
+      'thursday': 'Thursday',
+      'friday': 'Friday',
+      'saturday': 'Saturday',
+      'sunday': 'Sunday',
     },
   };
 

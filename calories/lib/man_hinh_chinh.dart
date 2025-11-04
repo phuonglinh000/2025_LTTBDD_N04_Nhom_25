@@ -125,13 +125,13 @@ class _ManHinhChinhState
     DateTime date,
   ) {
     final weekdays = [
-      'Thứ Hai',
-      'Thứ Ba',
-      'Thứ Tư',
-      'Thứ Năm',
-      'Thứ Sáu',
-      'Thứ Bảy',
-      'Chủ Nhật',
+    Lang.t('monday'),
+    Lang.t('tuesday'),
+    Lang.t('wednesday'),
+    Lang.t('thursday'),
+    Lang.t('friday'),
+    Lang.t('saturday'),
+    Lang.t('sunday'),
     ];
     final weekday =
         weekdays[(date.weekday - 1) %
