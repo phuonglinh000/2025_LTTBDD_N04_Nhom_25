@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'quan_ly_ngon_ngu.dart';
 
 class ManHinhGhiChu extends StatefulWidget {
   const ManHinhGhiChu({super.key});
@@ -81,7 +82,7 @@ class _ManHinhGhiChuState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ghi chú dinh dưỡng'),
+        title:  Text(Lang.t('nutrition_notes')),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
@@ -91,7 +92,7 @@ class _ManHinhGhiChuState
             TextField(
               controller: _noteController,
               decoration: InputDecoration(
-                hintText: 'Nhập ghi chú mới...',
+                hintText: Lang.t('enter_new_note'),
                 border: OutlineInputBorder(
                   borderRadius:
                       BorderRadius.circular(12),
@@ -110,9 +111,9 @@ class _ManHinhGhiChuState
             // Danh sách ghi chú
             Expanded(
               child: _notes.isEmpty
-                  ? const Center(
+                  ? Center(
                       child: Text(
-                        'Chưa có ghi chú nào.',
+                        Lang.t('no_notes_yet'),
                         style: TextStyle(
                           color: Colors.grey,
                         ),

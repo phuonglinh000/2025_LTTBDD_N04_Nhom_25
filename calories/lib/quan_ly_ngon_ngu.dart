@@ -80,7 +80,13 @@ class Lang {
       'group_info': 'Thông Tin Nhóm',
       'full_name': 'Họ và tên',
       'student_id': 'Mã sinh viên',
-      
+      'note': 'Ghi chú',
+      'nutrition_notes': 'Ghi chú dinh dưỡng',
+      'enter_new_note': 'Nhập ghi chú mới...',
+      'edit': 'Chỉnh sửa',
+
+
+
 
 
     },
@@ -148,6 +154,13 @@ class Lang {
       'group_info': 'Group Information',
       'full_name': 'Full Name',
       'student_id': 'Student ID',
+      'note': 'Notes',
+      'nutrition_notes': 'Nutrition notes',
+      'enter_new_note': 'Enter a new note...',
+      'edit': 'Edit',
+
+
+
 
 
 
