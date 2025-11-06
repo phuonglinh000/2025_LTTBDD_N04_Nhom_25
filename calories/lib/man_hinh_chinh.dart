@@ -7,15 +7,9 @@ import 'package:provider/provider.dart';
 import 'quan_ly_ngon_ngu.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'man_hinh_thong_tin_nhom.dart';
-<<<<<<< HEAD
 import 'package:percent_indicator/percent_indicator.dart';
 
-class ManHinhChinh
-    extends StatefulWidget {
-=======
-
 class ManHinhChinh extends StatefulWidget {
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
   const ManHinhChinh({super.key});
 
   @override
@@ -118,13 +112,13 @@ class _ManHinhChinhState
 
   String _getFormattedDate(DateTime date) {
     final weekdays = [
-    Lang.t('monday'),
-    Lang.t('tuesday'),
-    Lang.t('wednesday'),
-    Lang.t('thursday'),
-    Lang.t('friday'),
-    Lang.t('saturday'),
-    Lang.t('sunday'),
+      Lang.t('monday'),
+      Lang.t('tuesday'),
+      Lang.t('wednesday'),
+      Lang.t('thursday'),
+      Lang.t('friday'),
+      Lang.t('saturday'),
+      Lang.t('sunday'),
     ];
     final weekday =
         weekdays[(date.weekday - 1) % 7];
@@ -181,10 +175,8 @@ class _ManHinhChinhState
   String _getBmiCategory(double bmi) {
     if (bmi < 18.5)
       return Lang.t('bmi_underweight');
-    if (bmi < 25)
-      return Lang.t('bmi_normal');
-    if (bmi < 30)
-      return Lang.t('bmi_overweight');
+    if (bmi < 25) return Lang.t('bmi_normal');
+    if (bmi < 30) return Lang.t('bmi_overweight');
     return Lang.t('bmi_obese');
   }
 
@@ -342,55 +334,23 @@ class _ManHinhChinhState
                   TextField(
                     controller: _heightController,
                     keyboardType:
-<<<<<<< HEAD
-                        TextInputType
-                            .number,
-                    decoration:
-                        InputDecoration(
-                          labelText:
-                              Lang.t(
-                                'height',
-                              ),
-                          border:
-                              OutlineInputBorder(),
-                        ),
-=======
                         TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: Lang.t(
-                        'height_cm',
-                      ),
+                      labelText: Lang.t('height'),
                       border:
                           OutlineInputBorder(),
                     ),
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _weightController,
                     keyboardType:
-<<<<<<< HEAD
-                        TextInputType
-                            .number,
-                    decoration:
-                        InputDecoration(
-                          labelText:
-                              Lang.t(
-                                'weight',
-                              ),
-                          border:
-                              OutlineInputBorder(),
-                        ),
-=======
                         TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: Lang.t(
-                        'weight_kg',
-                      ),
+                      labelText: Lang.t('weight'),
                       border:
                           OutlineInputBorder(),
                     ),
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
                   ),
                   const SizedBox(height: 8),
                   TextField(
@@ -403,12 +363,9 @@ class _ManHinhChinhState
                           OutlineInputBorder(),
                     ),
                   ),
-<<<<<<< HEAD
-                  DropdownButtonFormField<
-                    String
-                  >(
-                    value:
-                        _activityLevel,
+                  const SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    value: _activityLevel,
                     decoration: InputDecoration(
                       labelText: Lang.t(
                         'activity_level',
@@ -416,32 +373,22 @@ class _ManHinhChinhState
                       border:
                           OutlineInputBorder(),
                     ),
-                    items: _activityFactors
-                        .keys
+                    items: _activityFactors.keys
                         .map((level) {
                           return DropdownMenuItem(
-                            value:
-                                level,
-                            child: Text(
-                              level,
-                            ),
+                            value: level,
+                            child: Text(level),
                           );
                         })
                         .toList(),
                     onChanged: (value) {
                       setState(() {
-                        _activityLevel =
-                            value!;
+                        _activityLevel = value!;
                       });
                     },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-=======
                   const SizedBox(height: 10),
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
+
                   ElevatedButton(
                     onPressed:
                         _calculateBMIandTDEE,
@@ -503,55 +450,22 @@ class _ManHinhChinhState
                   Stack(
                     alignment: Alignment.center,
                     children: [
-<<<<<<< HEAD
                       CircularPercentIndicator(
                         radius: 60.0,
                         lineWidth: 10.0,
-                        percent:
-                            displayProgress
-                                .clamp(
-                                  0.0,
-                                  1.0,
-                                ),
+                        percent: displayProgress
+                            .clamp(0.0, 1.0),
                         backgroundColor:
-                            Colors
-                                .grey[300]!,
+                            Colors.grey[300]!,
                         progressColor:
-                            progress <
-                                1.0
-                            ? Colors
-                                  .amber
-                            : (progress ==
-                                      1.0
+                            progress < 1.0
+                            ? Colors.amber
+                            : (progress == 1.0
                                   ? Colors.green
                                   : Colors.red),
                         circularStrokeCap:
                             CircularStrokeCap
                                 .round,
-=======
-                      SizedBox(
-                        height: 120,
-                        width: 120,
-                        child: CircularProgressIndicator(
-                          value: displayProgress,
-                          strokeWidth: 10,
-                          backgroundColor:
-                              Colors.grey[300],
-                          valueColor:
-                              AlwaysStoppedAnimation<
-                                Color
-                              >(
-                                progress < 1.0
-                                    ? Colors.amber
-                                    : (progress ==
-                                              1.0
-                                          ? Colors
-                                                .green
-                                          : Colors
-                                                .red),
-                              ),
-                        ),
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
                       ),
                       const Icon(
                         Icons.person,
@@ -656,19 +570,11 @@ class _ManHinhChinhState
               return Card(
                 child: ListTile(
                   leading: const Icon(
-<<<<<<< HEAD
-                    Icons
-                        .restaurant_menu,
+                    Icons.restaurant_menu,
                   ),
                   title: Text(
-                    Lang.t(
-                      meal['name'],
-                    ),
-=======
-                    Icons.restaurant_menu,
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
+                    Lang.t(meal['name']),
                   ),
-                  title: Text(meal['name']),
                   subtitle: Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
@@ -722,7 +628,7 @@ class _ManHinhChinhState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calorie Counter'),
+        title: const Text('Healthy Heart'),
         centerTitle: true,
         backgroundColor: Colors.teal,
         actions: [
@@ -990,98 +896,75 @@ class _ManHinhChinhState
         String? selectedMealName;
         String searchQuery = '';
 
-<<<<<<< HEAD
         return StatefulBuilder(
           builder: (context, setStateDialog) {
-            final filteredMeals =
-                availableMeals.where((
-                  meal,
-                ) {
-                  final key =
-                      meal['name']
-                          .toString();
+            final filteredMeals = availableMeals
+                .where((meal) {
+                  final key = meal['name']
+                      .toString();
                   final label = Lang.t(
                     key,
                   ).toLowerCase();
-                  final raw = key
-                      .toLowerCase();
+                  final raw = key.toLowerCase();
                   final q = searchQuery
                       .toLowerCase();
-                  return label.contains(
-                        q,
-                      ) ||
+                  return label.contains(q) ||
                       raw.contains(q);
-                }).toList();
+                })
+                .toList();
 
             return AlertDialog(
-              title: Text(
-                Lang.t('food_list'),
-              ),
+              title: Text(Lang.t('food_list')),
               content: SizedBox(
                 width: double.maxFinite,
                 child: Column(
-                  mainAxisSize:
-                      MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
                       decoration: InputDecoration(
                         hintText: Lang.t(
                           'search_menu',
                         ),
-                        prefixIcon:
-                            const Icon(
-                              Icons
-                                  .search,
-                            ),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                        ),
                       ),
                       onChanged: (value) {
-                        setStateDialog(
-                          () {
-                            searchQuery =
-                                value;
-                          },
-                        );
+                        setStateDialog(() {
+                          searchQuery = value;
+                        });
                       },
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    if (filteredMeals
-                        .isNotEmpty)
+                    const SizedBox(height: 10),
+                    if (filteredMeals.isNotEmpty)
                       Flexible(
                         child: ListView.builder(
-                          shrinkWrap:
-                              true,
-                          itemCount:
-                              filteredMeals
-                                  .length,
-                          itemBuilder:
-                              (
-                                context,
-                                index,
-                              ) {
-                                final key =
-                                    filteredMeals[index]['name']
-                                        as String;
-                                return ListTile(
-                                  title: Text(
-                                    Lang.t(
-                                      key,
-                                    ),
-                                  ),
-                                  selected:
-                                      selectedMealName ==
-                                      key,
-                                  selectedTileColor: Colors
+                          shrinkWrap: true,
+                          itemCount: filteredMeals
+                              .length,
+                          itemBuilder: (context, index) {
+                            final key =
+                                filteredMeals[index]['name']
+                                    as String;
+                            return ListTile(
+                              title: Text(
+                                Lang.t(key),
+                              ),
+                              selected:
+                                  selectedMealName ==
+                                  key,
+                              selectedTileColor:
+                                  Colors
                                       .deepPurple
                                       .shade50,
-                                  onTap: () {
-                                    setStateDialog(() {
-                                      selectedMealName = key;
-                                    });
-                                  },
-                                );
+                              onTap: () {
+                                setStateDialog(() {
+                                  selectedMealName =
+                                      key;
+                                });
                               },
+                            );
+                          },
                         ),
                       )
                     else
@@ -1091,15 +974,13 @@ class _ManHinhChinhState
                               8.0,
                             ),
                         child: Text(
-                          searchQuery
-                                  .isEmpty
+                          searchQuery.isEmpty
                               ? ''
                               : Lang.t(
                                   'Không tìm thấy món nào',
                                 ),
                           style: const TextStyle(
-                            color: Colors
-                                .grey,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
@@ -1109,135 +990,30 @@ class _ManHinhChinhState
               actions: [
                 TextButton(
                   onPressed: () =>
-                      Navigator.pop(
-                        context,
-                      ),
-                  child: Text(
-                    Lang.t('cancel'),
-                  ),
+                      Navigator.pop(context),
+                  child: Text(Lang.t('cancel')),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     if (selectedMealName !=
                         null) {
                       final selectedMeal =
-                          availableMeals
-                              .firstWhere(
-                                (
-                                  meal,
-                                ) =>
-                                    meal['name'] ==
-                                    selectedMealName,
-                              );
+                          availableMeals.firstWhere(
+                            (meal) =>
+                                meal['name'] ==
+                                selectedMealName,
+                          );
                       onMealSelected(
                         selectedMeal,
                       );
-                      Navigator.pop(
-                        context,
-                      );
+                      Navigator.pop(context);
                     }
                   },
-                  child: Text(
-                    Lang.t('add'),
-                  ),
+                  child: Text(Lang.t('add')),
                 ),
               ],
             );
           },
-=======
-        return AlertDialog(
-          title: Text(Lang.t('food_list')),
-          content: StatefulBuilder(
-            builder: (context, setStateDialog) {
-              final filteredMeals = availableMeals
-                  .where((meal) {
-                    final name = meal['name']
-                        .toString()
-                        .toLowerCase();
-                    return name.contains(
-                      searchQuery.toLowerCase(),
-                    );
-                  })
-                  .toList();
-
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: Lang.t(
-                        'search_menu',
-                      ),
-                      prefixIcon: Icon(
-                        Icons.search,
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setStateDialog(() {
-                        searchQuery = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButton<String>(
-                    value: localSelectedMeal,
-                    hint: Text(
-                      Lang.t('choose_meal'),
-                    ),
-                    isExpanded: true,
-                    items: filteredMeals.map((
-                      meal,
-                    ) {
-                      return DropdownMenuItem<
-                        String
-                      >(
-                        value:
-                            meal['name']
-                                as String,
-                        child: Text(
-                          meal['name'] as String,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setStateDialog(() {
-                        localSelectedMeal = value;
-                      });
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(Lang.t('cancel')),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (localSelectedMeal != null) {
-                  final selectedMeal =
-                      availableMeals.firstWhere(
-                        (meal) =>
-                            meal['name'] ==
-                            localSelectedMeal,
-                      );
-
-                  setState(() {
-                    _meals.add(selectedMeal);
-                    selectedMealName =
-                        localSelectedMeal;
-                  });
-                }
-                Navigator.pop(context);
-              },
-              child: Text(Lang.t('add')),
-            ),
-          ],
->>>>>>> bb34311 (Thêm phần thông tin nhóm)
         );
       },
     );

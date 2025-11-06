@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'quan_ly_ngon_ngu.dart';
 
 class ManHinhThongTinNhom
     extends StatelessWidget {
-
-
-class ManHinhThongTinNhom
-    extends StatelessWidget {
-  const ManHinhThongTinNhom({super.key});
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,40 +11,9 @@ class ManHinhThongTinNhom
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.center,
- 
-            children: [
-              Text(
-                Lang.t('group_info'),
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              _cardThanhVien(
-                '${Lang.t('full_name')}: Tạ Diệu Hương',
-                '${Lang.t('student_id')}: 23010610',
-                'imgs/huong.jpg',
-              ),
-
-              const SizedBox(height: 20),
-
-              _cardThanhVien(
-                '${Lang.t('full_name')}: Bạch Phương Linh',
-                '${Lang.t('student_id')}: 23010562',
-                'imgs/linh.jpg',
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
           children: [
-            const Text(
-              'Thông Tin Nhóm',
+            Text(
+              Lang.t('group_info'),
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
@@ -62,16 +23,16 @@ class ManHinhThongTinNhom
             const SizedBox(height: 20),
 
             _cardThanhVien(
-              'Họ và tên: Tạ Diệu Hương',
-              'Mã sinh viên: 23010610',
+              '${Lang.t('full_name')}: Tạ Diệu Hương',
+              '${Lang.t('student_id')}: 23010610',
               'imgs/huong.jpg',
             ),
 
             const SizedBox(height: 20),
 
             _cardThanhVien(
-              'Họ và tên: Bạch Phương Linh',
-              'Mã sinh viên: 23010562',
+              '${Lang.t('full_name')}: Bạch Phương Linh',
+              '${Lang.t('student_id')}: 23010562',
               'imgs/linh.jpg',
             ),
           ],
@@ -79,7 +40,6 @@ class ManHinhThongTinNhom
       ),
     );
   }
-
 
   Widget _cardThanhVien(
     String name,
