@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'quan_ly_ngon_ngu.dart';
 
-class ManHinhGhiChu
-    extends StatefulWidget {
+class ManHinhGhiChu extends StatefulWidget {
   const ManHinhGhiChu({super.key});
 
   @override
@@ -13,19 +12,14 @@ class ManHinhGhiChu
 class _ManHinhGhiChuState
     extends State<ManHinhGhiChu> {
   final List<String> _notes = [];
-  final TextEditingController
-  _noteController =
+  final TextEditingController _noteController =
       TextEditingController();
 
   void _addNote() {
-    if (_noteController.text
-        .trim()
-        .isEmpty)
+    if (_noteController.text.trim().isEmpty)
       return;
     setState(() {
-      _notes.add(
-        _noteController.text.trim(),
-      );
+      _notes.add(_noteController.text.trim());
       _noteController.clear();
     });
   }
@@ -37,8 +31,7 @@ class _ManHinhGhiChuState
   }
 
   void _editNoteAt(int index) {
-    TextEditingController
-    editController =
+    TextEditingController editController =
         TextEditingController(
           text: _notes[index],
         );
@@ -56,10 +49,8 @@ class _ManHinhGhiChuState
           controller: editController,
           autofocus: true,
           decoration: const InputDecoration(
-            hintText:
-                'Nhập nội dung mới...',
-            border:
-                OutlineInputBorder(),
+            hintText: 'Nhập nội dung mới...',
+            border: OutlineInputBorder(),
           ),
         ),
         actions: [
@@ -69,16 +60,14 @@ class _ManHinhGhiChuState
             child: const Text('Hủy'),
           ),
           ElevatedButton(
-            style:
-                ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.teal,
-                ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.teal,
+            ),
             onPressed: () {
               setState(() {
-                _notes[index] =
-                    editController.text
-                        .trim();
+                _notes[index] = editController
+                    .text
+                    .trim();
               });
               Navigator.pop(context);
             },
@@ -93,27 +82,22 @@ class _ManHinhGhiChuState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          Lang.t('nutrition_notes'),
-        ),
+        title: Text(Lang.t('nutrition_notes')),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(
-          16.0,
-        ),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
-              controller:
-                  _noteController,
+              controller: _noteController,
               decoration: InputDecoration(
-                hintText: Lang.t('enter_new_note'),
+                hintText: Lang.t(
+                  'enter_new_note',
+                ),
                 border: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(
-                        12,
-                      ),
+                      BorderRadius.circular(12),
                 ),
                 suffixIcon: IconButton(
                   icon: const Icon(
@@ -131,18 +115,14 @@ class _ManHinhGhiChuState
               child: _notes.isEmpty
                   ? Center(
                       child: Text(
-                        Lang.t(
-                          'no_notes_yet',
-                        ),
+                        Lang.t('no_notes_yet'),
                         style: TextStyle(
-                          color: Colors
-                              .grey,
+                          color: Colors.grey,
                         ),
                       ),
                     )
                   : ListView.builder(
-                      itemCount:
-                          _notes.length,
+                      itemCount: _notes.length,
                       itemBuilder: (context, index) {
                         return Card(
                           elevation: 3,
@@ -156,15 +136,14 @@ class _ManHinhGhiChuState
                             leading: const Icon(
                               Icons
                                   .note_alt_outlined,
-                              color: Colors
-                                  .teal,
+                              color: Colors.teal,
                             ),
                             title: Text(
                               _notes[index],
-                              style: const TextStyle(
-                                fontSize:
-                                    16,
-                              ),
+                              style:
+                                  const TextStyle(
+                                    fontSize: 16,
+                                  ),
                             ),
                             trailing: Row(
                               mainAxisSize:
@@ -174,26 +153,27 @@ class _ManHinhGhiChuState
                                 IconButton(
                                   icon: const Icon(
                                     Icons.edit,
-                                    color:
-                                        Colors.blueAccent,
+                                    color: Colors
+                                        .blueAccent,
                                   ),
                                   tooltip:
                                       'Chỉnh sửa',
-                                  onPressed: () => _editNoteAt(
-                                    index,
-                                  ),
+                                  onPressed: () =>
+                                      _editNoteAt(
+                                        index,
+                                      ),
                                 ),
                                 IconButton(
                                   icon: const Icon(
                                     Icons.delete,
-                                    color:
-                                        Colors.redAccent,
+                                    color: Colors
+                                        .redAccent,
                                   ),
-                                  tooltip:
-                                      'Xóa',
-                                  onPressed: () => _deleteNoteAt(
-                                    index,
-                                  ),
+                                  tooltip: 'Xóa',
+                                  onPressed: () =>
+                                      _deleteNoteAt(
+                                        index,
+                                      ),
                                 ),
                               ],
                             ),
