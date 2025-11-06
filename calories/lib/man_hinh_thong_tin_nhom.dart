@@ -11,35 +11,35 @@ class ManHinhThongTinNhom
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.center,
-            children: [
-              Text(
-                Lang.t('group_info'),
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
+          children: [
+            Text(
+              Lang.t('group_info'),
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
               ),
-              const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
 
-              _cardThanhVien(
-                '${Lang.t('full_name')}: Tạ Diệu Hương',
-                '${Lang.t('student_id')}: 23010610',
-                'imgs/huong.jpg',
-              ),
+            _cardThanhVien(
+              '${Lang.t('full_name')}: Tạ Diệu Hương',
+              '${Lang.t('student_id')}: 23010610',
+              'imgs/huong.jpg',
+            ),
 
-              const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-              _cardThanhVien(
-                '${Lang.t('full_name')}: Bạch Phương Linh',
-                '${Lang.t('student_id')}: 23010562',
-                'imgs/linh.jpg',
-              ),
-            ],
-          ),
+            _cardThanhVien(
+              '${Lang.t('full_name')}: Bạch Phương Linh',
+              '${Lang.t('student_id')}: 23010562',
+              'imgs/linh.jpg',
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
   Widget _cardThanhVien(
     String name,

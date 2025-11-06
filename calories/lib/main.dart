@@ -21,10 +21,11 @@ class CalorieAppWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812), 
-      minTextAdapt: true, 
-      splitScreenMode: true, 
-      builder: (context, child) => const CalorieApp(),
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) =>
+          const CalorieApp(),
     );
   }
 }
@@ -34,14 +35,19 @@ class CalorieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LocaleProvider>(context);
+    final provider = Provider.of<LocaleProvider>(
+      context,
+    );
 
-    Lang.currentLang = provider.locale.languageCode;
+    Lang.currentLang =
+        provider.locale.languageCode;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Healthy Heart',
-      theme: ThemeData(primarySwatch: Colors.green),
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
 
       locale: provider.locale,
 
