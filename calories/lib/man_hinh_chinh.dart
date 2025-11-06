@@ -125,13 +125,13 @@ class _ManHinhChinhState
     DateTime date,
   ) {
     final weekdays = [
-    Lang.t('monday'),
-    Lang.t('tuesday'),
-    Lang.t('wednesday'),
-    Lang.t('thursday'),
-    Lang.t('friday'),
-    Lang.t('saturday'),
-    Lang.t('sunday'),
+      Lang.t('monday'),
+      Lang.t('tuesday'),
+      Lang.t('wednesday'),
+      Lang.t('thursday'),
+      Lang.t('friday'),
+      Lang.t('saturday'),
+      Lang.t('sunday'),
     ];
     final weekday =
         weekdays[(date.weekday - 1) %
@@ -762,7 +762,7 @@ class _ManHinhChinhState
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Calorie Counter',
+          'Healthy Heart',
         ),
         centerTitle: true,
         backgroundColor: Colors.teal,
@@ -802,13 +802,13 @@ class _ManHinhChinhState
                 ),
 
           Positioned(
-            bottom: 20,
+            bottom: 80,
             right: 20,
             child: GestureDetector(
               onTap: () {
                 final provider =
                     Provider.of<
-                      LocaleProvider
+                      LocaleProvider 
                     >(
                       context,
                       listen: false,

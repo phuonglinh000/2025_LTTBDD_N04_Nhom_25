@@ -40,7 +40,7 @@ class CalorieApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Calorie Counter',
+      title: 'Healthy Heart',
       theme: ThemeData(primarySwatch: Colors.green),
 
       locale: provider.locale,
