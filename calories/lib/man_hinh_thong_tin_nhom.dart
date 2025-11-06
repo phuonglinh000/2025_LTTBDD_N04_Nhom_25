@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'quan_ly_ngon_ngu.dart';
 
 class ManHinhThongTinNhom
     extends StatelessWidget {
+
+
+class ManHinhThongTinNhom
+    extends StatelessWidget {
+  const ManHinhThongTinNhom({super.key});
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -11,6 +19,7 @@ class ManHinhThongTinNhom
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.center,
+ 
             children: [
               Text(
                 Lang.t('group_info'),
@@ -40,6 +49,37 @@ class ManHinhThongTinNhom
         ),
       );
     }
+
+          children: [
+            const Text(
+              'Thông Tin Nhóm',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            _cardThanhVien(
+              'Họ và tên: Tạ Diệu Hương',
+              'Mã sinh viên: 23010610',
+              'imgs/huong.jpg',
+            ),
+
+            const SizedBox(height: 20),
+
+            _cardThanhVien(
+              'Họ và tên: Bạch Phương Linh',
+              'Mã sinh viên: 23010562',
+              'imgs/linh.jpg',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 
   Widget _cardThanhVien(
     String name,
