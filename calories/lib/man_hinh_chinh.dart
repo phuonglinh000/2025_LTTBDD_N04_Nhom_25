@@ -666,7 +666,7 @@ class _ManHinhChinhState
                 ),
 
           Positioned(
-            bottom: 20,
+            bottom: 80,
             right: 20,
             child: GestureDetector(
               onTap: () {
