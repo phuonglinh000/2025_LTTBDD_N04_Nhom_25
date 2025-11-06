@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'quan_ly_ngon_ngu.dart';
 
-
 class ManHinhTapLuyen extends StatefulWidget {
   const ManHinhTapLuyen({super.key});
 
   @override
-  State<ManHinhTapLuyen> createState() => _ManHinhTapLuyenState();
+  State<ManHinhTapLuyen> createState() =>
+      _ManHinhTapLuyenState();
 }
 
-class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
+class _ManHinhTapLuyenState
+    extends State<ManHinhTapLuyen> {
   Widget _itemBaiTap({
     required String title,
     required String subtitle,
@@ -30,7 +31,9 @@ class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(
+              22,
+            ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -40,11 +43,18 @@ class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
               ],
             ),
           ),
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 22),
+          padding: const EdgeInsets.fromLTRB(
+            20,
+            0,
+            20,
+            22,
+          ),
           alignment: Alignment.bottomLeft,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment:
+                MainAxisAlignment.end,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Text(
                 title,
@@ -72,7 +82,12 @@ class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
 
   Widget _buildPageContent() {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      padding: const EdgeInsets.fromLTRB(
+        16,
+        16,
+        16,
+        24,
+      ),
       children: [
         const SizedBox(height: 4),
         Text(
@@ -108,8 +123,11 @@ class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LocaleProvider>(context);
-    Lang.currentLang = provider.locale.languageCode;
+    final provider = Provider.of<LocaleProvider>(
+      context,
+    );
+    Lang.currentLang =
+        provider.locale.languageCode;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,4 +135,3 @@ class _ManHinhTapLuyenState extends State<ManHinhTapLuyen> {
     );
   }
 }
-
