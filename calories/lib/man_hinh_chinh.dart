@@ -667,7 +667,7 @@ class _ManHinhChinhState
 
           Positioned(
             bottom: 80,
-            right: 20,
+            right: 30,
             child: GestureDetector(
               onTap: () {
                 final provider =
