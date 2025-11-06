@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'quan_ly_ngon_ngu.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'man_hinh_thong_tin_nhom.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ManHinhChinh extends StatefulWidget {
   const ManHinhChinh({super.key});
@@ -31,30 +32,29 @@ class _ManHinhChinhState
 
   final List<Map<String, dynamic>> _meals = [
     {
-      'name': 'Chuối',
-      'calories': 200,
-      'carbs': 50,
-      'protein': 1.0,
-      'fat': 1.0,
-      'fiber': 3.0,
+      'name': 'steamed_squid',
+      'calories': 160,
+      'carbs': 2.0,
+      'protein': 30.0,
+      'fat': 3.0,
+      'fiber': 0.0,
     },
     {
-      'name': 'Cơm',
-      'calories': 130,
-      'carbs': 28,
-      'protein': 2.7,
-      'fat': 0.3,
-      'fiber': 0.4,
-    },
-    {
-      'name': 'Trứng luộc',
-      'calories': 75,
-      'carbs': 0.5,
-      'protein': 6.0,
-      'fat': 5.3,
+      'name': 'stir_fried_eel',
+      'calories': 250,
+      'carbs': 5.0,
+      'protein': 22.0,
+      'fat': 15.0,
       'fiber': 0.0,
     },
   ];
+  void onMealSelected(
+    Map<String, dynamic> selectedMeal,
+  ) {
+    setState(() {
+      _meals.add(selectedMeal);
+    });
+  }
 
   final TextEditingController _heightController =
       TextEditingController();
@@ -112,13 +112,13 @@ class _ManHinhChinhState
 
   String _getFormattedDate(DateTime date) {
     final weekdays = [
-      'Thứ Hai',
-      'Thứ Ba',
-      'Thứ Tư',
-      'Thứ Năm',
-      'Thứ Sáu',
-      'Thứ Bảy',
-      'Chủ Nhật',
+      Lang.t('monday'),
+      Lang.t('tuesday'),
+      Lang.t('wednesday'),
+      Lang.t('thursday'),
+      Lang.t('friday'),
+      Lang.t('saturday'),
+      Lang.t('sunday'),
     ];
     final weekday =
         weekdays[(date.weekday - 1) % 7];
@@ -173,10 +173,11 @@ class _ManHinhChinhState
   }
 
   String _getBmiCategory(double bmi) {
-    if (bmi < 18.5) return 'Gầy';
-    if (bmi < 25) return 'Bình thường';
-    if (bmi < 30) return 'Thừa cân';
-    return 'Béo phì';
+    if (bmi < 18.5)
+      return Lang.t('bmi_underweight');
+    if (bmi < 25) return Lang.t('bmi_normal');
+    if (bmi < 30) return Lang.t('bmi_overweight');
+    return Lang.t('bmi_obese');
   }
 
   void _onItemTapped(int index) {
@@ -335,9 +336,7 @@ class _ManHinhChinhState
                     keyboardType:
                         TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: Lang.t(
-                        'height_cm',
-                      ),
+                      labelText: Lang.t('height'),
                       border:
                           OutlineInputBorder(),
                     ),
@@ -348,9 +347,7 @@ class _ManHinhChinhState
                     keyboardType:
                         TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: Lang.t(
-                        'weight_kg',
-                      ),
+                      labelText: Lang.t('weight'),
                       border:
                           OutlineInputBorder(),
                     ),
@@ -367,6 +364,31 @@ class _ManHinhChinhState
                     ),
                   ),
                   const SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    value: _activityLevel,
+                    decoration: InputDecoration(
+                      labelText: Lang.t(
+                        'activity_level',
+                      ),
+                      border:
+                          OutlineInputBorder(),
+                    ),
+                    items: _activityFactors.keys
+                        .map((level) {
+                          return DropdownMenuItem(
+                            value: level,
+                            child: Text(level),
+                          );
+                        })
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _activityLevel = value!;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+
                   ElevatedButton(
                     onPressed:
                         _calculateBMIandTDEE,
@@ -419,7 +441,6 @@ class _ManHinhChinhState
             ),
           ),
           const SizedBox(height: 10),
-
           Row(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
@@ -429,28 +450,22 @@ class _ManHinhChinhState
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      SizedBox(
-                        height: 120,
-                        width: 120,
-                        child: CircularProgressIndicator(
-                          value: displayProgress,
-                          strokeWidth: 10,
-                          backgroundColor:
-                              Colors.grey[300],
-                          valueColor:
-                              AlwaysStoppedAnimation<
-                                Color
-                              >(
-                                progress < 1.0
-                                    ? Colors.amber
-                                    : (progress ==
-                                              1.0
-                                          ? Colors
-                                                .green
-                                          : Colors
-                                                .red),
-                              ),
-                        ),
+                      CircularPercentIndicator(
+                        radius: 60.0,
+                        lineWidth: 10.0,
+                        percent: displayProgress
+                            .clamp(0.0, 1.0),
+                        backgroundColor:
+                            Colors.grey[300]!,
+                        progressColor:
+                            progress < 1.0
+                            ? Colors.amber
+                            : (progress == 1.0
+                                  ? Colors.green
+                                  : Colors.red),
+                        circularStrokeCap:
+                            CircularStrokeCap
+                                .round,
                       ),
                       const Icon(
                         Icons.person,
@@ -482,7 +497,7 @@ class _ManHinhChinhState
                           Lang.t(
                             'today_nutrition',
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight:
                                 FontWeight.bold,
                           ),
@@ -494,21 +509,18 @@ class _ManHinhChinhState
                           goalCarbs,
                           Colors.orange,
                         ),
-
                         _thanhdinhduong(
                           Lang.t('protein'),
                           totalProtein,
                           goalProtein,
                           Colors.green,
                         ),
-
                         _thanhdinhduong(
                           Lang.t('fat'),
                           totalFat,
                           goalFat,
                           Colors.pinkAccent,
                         ),
-
                         _thanhdinhduong(
                           Lang.t('fiber'),
                           totalFiber,
@@ -560,31 +572,33 @@ class _ManHinhChinhState
                   leading: const Icon(
                     Icons.restaurant_menu,
                   ),
-                  title: Text(meal['name']),
+                  title: Text(
+                    Lang.t(meal['name']),
+                  ),
                   subtitle: Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Calories: ${meal['calories']} kcal',
+                        '${Lang.t("calories")}: ${meal['calories']} kcal',
                       ),
                       Text(
-                        'Tinh bột: ${meal['carbs'] ?? 0}g',
+                        '${Lang.t("carbs")}: ${meal['carbs']}g',
                       ),
                       Text(
-                        'Đạm: ${meal['protein'] ?? 0}g',
+                        '${Lang.t("protein")}: ${meal['protein']}g',
                       ),
                       Text(
-                        'Chất béo: ${meal['fat'] ?? 0}g',
+                        '${Lang.t("fat")}: ${meal['fat']}g',
                       ),
                       Text(
-                        'Chất xơ: ${meal['fiber'] ?? 0}g',
+                        '${Lang.t("fiber")}: ${meal['fiber']}g',
                       ),
                     ],
                   ),
                   trailing: IconButton(
                     icon: const Icon(
-                      Icons.close,
+                      Icons.delete,
                       color: Colors.red,
                     ),
                     onPressed: () {
@@ -604,7 +618,7 @@ class _ManHinhChinhState
     } else if (_selectedIndex == 2) {
       return const ManHinhTapLuyen();
     } else if (_selectedIndex == 3) {
-      return const ManHinhThongTinNhom();
+      return ManHinhThongTinNhom();
     }
 
     return const SizedBox();
@@ -614,7 +628,7 @@ class _ManHinhChinhState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calorie Counter'),
+        title: const Text('Healthy Heart'),
         centerTitle: true,
         backgroundColor: Colors.teal,
         actions: [
@@ -623,7 +637,7 @@ class _ManHinhChinhState
               Icons.note_alt_outlined,
               color: Colors.white,
             ),
-            tooltip: 'Ghi chú',
+            tooltip: Lang.t('note'),
             onPressed: () {
               Navigator.push(
                 context,
@@ -785,7 +799,7 @@ class _ManHinhChinhState
     final List<Map<String, dynamic>>
     availableMeals = [
       {
-        'name': 'Cơm',
+        'name': 'rice',
         'calories': 130,
         'carbs': 28.0,
         'protein': 2.5,
@@ -793,15 +807,15 @@ class _ManHinhChinhState
         'fiber': 0.2,
       },
       {
-        'name': 'Phở bò',
-        'calories': 400,
+        'name': 'beef_noodle',
+        'calories': 500,
         'carbs': 45.0,
         'protein': 20.0,
         'fat': 10.0,
         'fiber': 2.0,
       },
       {
-        'name': 'Trứng luộc',
+        'name': 'boiled_egg',
         'calories': 75,
         'carbs': 0.6,
         'protein': 6.3,
@@ -809,7 +823,7 @@ class _ManHinhChinhState
         'fiber': 0.0,
       },
       {
-        'name': 'Chuối',
+        'name': 'banana',
         'calories': 200,
         'carbs': 50.0,
         'protein': 1.0,
@@ -817,15 +831,15 @@ class _ManHinhChinhState
         'fiber': 3.0,
       },
       {
-        'name': 'Sữa tươi',
-        'calories': 150,
+        'name': 'milk',
+        'calories': 180,
         'carbs': 12.0,
         'protein': 8.0,
         'fat': 8.0,
         'fiber': 0.0,
       },
       {
-        'name': 'Bánh mì',
+        'name': 'bread',
         'calories': 250,
         'carbs': 45.0,
         'protein': 8.0,
@@ -833,7 +847,7 @@ class _ManHinhChinhState
         'fiber': 2.0,
       },
       {
-        'name': 'Cá hồi',
+        'name': 'salmon',
         'calories': 300,
         'carbs': 0.0,
         'protein': 25.0,
@@ -841,7 +855,7 @@ class _ManHinhChinhState
         'fiber': 0.0,
       },
       {
-        'name': 'Cà chua',
+        'name': 'tomato',
         'calories': 30,
         'carbs': 7.0,
         'protein': 1.0,
@@ -849,7 +863,7 @@ class _ManHinhChinhState
         'fiber': 1.5,
       },
       {
-        'name': 'Chè đỗ đen',
+        'name': 'black_bean_sweet_soup',
         'calories': 420,
         'carbs': 80.0,
         'protein': 10.0,
@@ -857,7 +871,7 @@ class _ManHinhChinhState
         'fiber': 6.0,
       },
       {
-        'name': 'Lạc rang',
+        'name': 'roasted_peanut',
         'calories': 300,
         'carbs': 8.0,
         'protein': 13.0,
@@ -865,7 +879,7 @@ class _ManHinhChinhState
         'fiber': 3.0,
       },
       {
-        'name': 'Ổi',
+        'name': 'guava',
         'calories': 80,
         'carbs': 14.0,
         'protein': 1.0,
@@ -879,102 +893,127 @@ class _ManHinhChinhState
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String? localSelectedMeal =
-            selectedMealName;
+        String? selectedMealName;
         String searchQuery = '';
 
-        return AlertDialog(
-          title: Text(Lang.t('food_list')),
-          content: StatefulBuilder(
-            builder: (context, setStateDialog) {
-              final filteredMeals = availableMeals
-                  .where((meal) {
-                    final name = meal['name']
-                        .toString()
-                        .toLowerCase();
-                    return name.contains(
-                      searchQuery.toLowerCase(),
-                    );
-                  })
-                  .toList();
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            final filteredMeals = availableMeals
+                .where((meal) {
+                  final key = meal['name']
+                      .toString();
+                  final label = Lang.t(
+                    key,
+                  ).toLowerCase();
+                  final raw = key.toLowerCase();
+                  final q = searchQuery
+                      .toLowerCase();
+                  return label.contains(q) ||
+                      raw.contains(q);
+                })
+                .toList();
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: Lang.t(
-                        'search_menu',
-                      ),
-                      prefixIcon: Icon(
-                        Icons.search,
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setStateDialog(() {
-                        searchQuery = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButton<String>(
-                    value: localSelectedMeal,
-                    hint: Text(
-                      Lang.t('choose_meal'),
-                    ),
-                    isExpanded: true,
-                    items: filteredMeals.map((
-                      meal,
-                    ) {
-                      return DropdownMenuItem<
-                        String
-                      >(
-                        value:
-                            meal['name']
-                                as String,
-                        child: Text(
-                          meal['name'] as String,
+            return AlertDialog(
+              title: Text(Lang.t('food_list')),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: Lang.t(
+                          'search_menu',
                         ),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setStateDialog(() {
+                          searchQuery = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    if (filteredMeals.isNotEmpty)
+                      Flexible(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: filteredMeals
+                              .length,
+                          itemBuilder: (context, index) {
+                            final key =
+                                filteredMeals[index]['name']
+                                    as String;
+                            return ListTile(
+                              title: Text(
+                                Lang.t(key),
+                              ),
+                              selected:
+                                  selectedMealName ==
+                                  key,
+                              selectedTileColor:
+                                  Colors
+                                      .deepPurple
+                                      .shade50,
+                              onTap: () {
+                                setStateDialog(() {
+                                  selectedMealName =
+                                      key;
+                                });
+                              },
+                            );
+                          },
+                        ),
+                      )
+                    else
+                      Padding(
+                        padding:
+                            const EdgeInsets.all(
+                              8.0,
+                            ),
+                        child: Text(
+                          searchQuery.isEmpty
+                              ? ''
+                              : Lang.t(
+                                  'Không tìm thấy món nào',
+                                ),
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () =>
+                      Navigator.pop(context),
+                  child: Text(Lang.t('cancel')),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (selectedMealName !=
+                        null) {
+                      final selectedMeal =
+                          availableMeals.firstWhere(
+                            (meal) =>
+                                meal['name'] ==
+                                selectedMealName,
+                          );
+                      onMealSelected(
+                        selectedMeal,
                       );
-                    }).toList(),
-                    onChanged: (value) {
-                      setStateDialog(() {
-                        localSelectedMeal = value;
-                      });
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(Lang.t('cancel')),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (localSelectedMeal != null) {
-                  final selectedMeal =
-                      availableMeals.firstWhere(
-                        (meal) =>
-                            meal['name'] ==
-                            localSelectedMeal,
-                      );
-
-                  setState(() {
-                    _meals.add(selectedMeal);
-                    selectedMealName =
-                        localSelectedMeal;
-                  });
-                }
-                Navigator.pop(context);
-              },
-              child: Text(Lang.t('add')),
-            ),
-          ],
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text(Lang.t('add')),
+                ),
+              ],
+            );
+          },
         );
       },
     );
