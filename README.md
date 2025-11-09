@@ -34,12 +34,12 @@ Thông qua việc thực hiện đề tài, em cũng mong muốn củng cố k�
 
 ## Tính năng chính của ứng dụng
 
-• Tính BMI & TDEE: Người dùng nhập thông tin cá nhân, hệ thống tính BMI và TDEE, đồng thời đề xuất mức calo phù hợp.
-• Quản lý món ăn: Người dùng có thể thêm hoặc xóa món ăn bằng cách nhập tên món, lượng calo và các thông tin dinh dưỡng; hệ thống lưu lại và cập nhật tổng calo trong ngày.
-• Theo dõi calo trong ngày: Khi người dùng thêm món ăn, hệ thống cộng dồn calo và chất dinh dưỡng; vòng tròn calo đổi màu theo mức tiêu thụ.
-• Lịch sử ăn uống: Lưu và hiển thị danh sách các món đã ăn theo từng ngày.
-• Theo dõi tập luyện: Hiển thị danh sách bài tập và gợi ý thời lượng tập luyện phù hợp.
-• Quản lý ghi chú: Người dùng có thể thêm, sửa hoặc xóa các ghi chú cá nhân.
+- Tính BMI & TDEE: Người dùng nhập thông tin cá nhân, hệ thống tính BMI và TDEE, đồng thời đề xuất mức calo phù hợp.
+- Quản lý món ăn: Người dùng có thể thêm hoặc xóa món ăn bằng cách nhập tên món, lượng calo và các thông tin dinh dưỡng; hệ thống lưu lại và cập nhật tổng calo trong ngày.
+- Theo dõi calo trong ngày: Khi người dùng thêm món ăn, hệ thống cộng dồn calo và chất dinh dưỡng; vòng tròn calo đổi màu theo mức tiêu thụ.
+- Lịch sử ăn uống: Lưu và hiển thị danh sách các món đã ăn theo từng ngày.
+- Theo dõi tập luyện: Hiển thị danh sách bài tập và gợi ý thời lượng tập luyện phù hợp.
+- Quản lý ghi chú: Người dùng có thể thêm, sửa hoặc xóa các ghi chú cá nhân.
 
 
 ---
