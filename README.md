@@ -47,8 +47,8 @@ Thông qua việc thực hiện đề tài, em cũng mong muốn củng cố k�
 
 ## Công nghệ sử dụng
 
-•	Flutter (Dart)
-•	Kiến trúc StatefulWidget để quản lý trạng thái (state) cục bộ cho màn hình chính.
+- Flutter (Dart)
+-	Kiến trúc StatefulWidget để quản lý trạng thái (state) cục bộ cho màn hình chính.
 
 
 ---
