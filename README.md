@@ -6,7 +6,7 @@ Healthy Heart là ứng dụng theo dõi sức khỏe và dinh dưỡng được
 
 ---
 
-## Thông tin Nhóm Phát triển (Team Information)
+## Thông tin nhóm phát triển 
 
 Đề tài được thực hiện bởi nhóm sinh viên:
 
@@ -17,7 +17,7 @@ Healthy Heart là ứng dụng theo dõi sức khỏe và dinh dưỡng được
 
 ---
 
-## Lý do Thực hiện Đề tài (Motivation)
+## Mục đích thực hiện đề tài
 
 Trong cuộc sống hiện đại, mọi người ngày càng quan tâm hơn đến sức khỏe và dinh dưỡng, đặc biệt là việc kiểm soát lượng calories nạp vào cơ thể mỗi ngày. Tuy nhiên, việc tự ghi chép và tính toán các chỉ số như BMI, TDEE và tổng calories thường phức tạp và mất thời gian, nhất là với những người bận rộn.
 
@@ -27,7 +27,7 @@ Thông qua việc thực hiện đề tài, em cũng mong muốn củng cố k�
 
 ---
 
-## Sơ đồ Use case
+## Sơ đồ Use-case
 <img width="975" height="264" alt="image" src="https://github.com/user-attachments/assets/c98eac17-8acb-47f4-b295-1a56e569e392" />
 
 ---
@@ -49,8 +49,20 @@ Thông qua việc thực hiện đề tài, em cũng mong muốn củng cố k�
 
 - Flutter (Dart)
 -	Kiến trúc StatefulWidget để quản lý trạng thái (state) cục bộ cho màn hình chính.
+  
+**Môi trường phát triển**
+flutter:
+    sdk: flutter
+  fl_chart: ^0.68.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  easy_localization: ^3.0.5
+  provider: ^6.1.2
+  flutter_screenutil: ^5.9.0
+  percent_indicator: ^4.2.3
 
-
+  
 ---
 
 
