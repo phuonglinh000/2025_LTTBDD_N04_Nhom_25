@@ -51,16 +51,14 @@ Thông qua việc thực hiện đề tài, em cũng mong muốn củng cố k�
 -	Kiến trúc StatefulWidget để quản lý trạng thái (state) cục bộ cho màn hình chính.
   
 **Môi trường phát triển**
-flutter:
-    sdk: flutter
-  fl_chart: ^0.68.0
-  flutter_localizations:
-    sdk: flutter
-  intl: ^0.20.2
-  easy_localization: ^3.0.5
-  provider: ^6.1.2
-  flutter_screenutil: ^5.9.0
-  percent_indicator: ^4.2.3
+- flutter: sdk: flutter
+- fl_chart: ^0.68.0
+- flutter_localizations: sdk: flutter
+- intl: ^0.20.2
+- easy_localization: ^3.0.5
+- provider: ^6.1.2
+- flutter_screenutil: ^5.9.0
+- percent_indicator: ^4.2.3
 
   
 ---
