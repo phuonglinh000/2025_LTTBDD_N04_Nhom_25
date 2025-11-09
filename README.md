@@ -1,4 +1,4 @@
-# laptrinhmobile
+
 # Healthy Heart (Flutter App)
 
 Healthy Heart là ứng dụng theo dõi sức khỏe và dinh dưỡng được xây dựng bằng Flutter.
@@ -59,7 +59,7 @@ Thông qua việc thực hiện đề tài, em cũng mong muốn củng cố k�
 **Yêu cầu hệ thống**
 -	Flutter >= 3.0
 -	Dart >= 3.0
--	IDE: VS Code.
+-	IDE: VS Code
 
 **Hướng dẫn chạy**
 ```
